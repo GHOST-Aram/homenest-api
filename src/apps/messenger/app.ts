@@ -6,7 +6,7 @@ import { schema } from "./data-access/model";
 import { routesWrapper } from "./urls/urls";
 
 
-const dbConnection = connection.switch('messages')
+const dbConnection = connection.switch('homenest-messages')
 const MessageModel = new DB(dbConnection).createModel('Message', schema)
 
 const dataAccess =  new DataAccess(MessageModel)

@@ -6,7 +6,7 @@ import { gallerySchema } from "./data-access/model";
 import { routesWrapper } from "./urls/urls";
 
 
-const dbConnection = connection.switch('gallery')
+const dbConnection = connection.switch('homenest-gallery')
 const Gallery = new DB(dbConnection).createModel('Gallery', gallerySchema)
 
 
