@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../../data-access/model";
-import { Authenticatable } from "../../z-library/auth/auth";
+import { Authenticatable } from "../../../../z-library/auth/auth";
 
 class Authenticator implements Authenticatable{
 
