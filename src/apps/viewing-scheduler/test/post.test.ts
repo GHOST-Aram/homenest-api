@@ -30,8 +30,6 @@ describe('Viewing Scheduler POST', () => {
             const response = await request(app).post('/viewing-scheduler')
             .send( postData )
 
-            console.log(response.body)
-
             assert.respondsWithCreatedResource(response)
         }
     )
