@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import { Authenticatable } from "../../z-library/auth/auth";
+import { Authenticatable } from "../../../../z-library/auth/auth";
 class Authenticator implements Authenticatable{
 
     public authenticate = () =>{

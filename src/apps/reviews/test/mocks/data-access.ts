@@ -4,9 +4,8 @@ import {
         Review, 
         ReviewModel 
 } from '../../data-access/model'
-import { Paginator } from '../../z-library/HTTP/http-response'
+import { Paginator } from '../../../../z-library/HTTP/http-response'
 import { reviewData } from './raw-data'
-import { GenericDataAccess } from '../../z-library/bases/generic-data-access'
 import { ReviewDataAccess } from '../../data-access/data-access'
 
 export class DataAccess extends ReviewDataAccess{

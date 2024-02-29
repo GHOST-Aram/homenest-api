@@ -59,7 +59,7 @@ export class HttpResponse{
     }
 
     public respondWithForbidden = (res: Response) =>{
-        res.status(403).json({ message: 'Access denied' })
+        res.status(403).json({ message: 'Forbidden' })
     }
 
     public respondWithUnauthorised = (res: Response) =>{

@@ -101,7 +101,7 @@ export class ResponseAssertion{
     
     public respondsWithForbidden = (response: Response) =>{
         expect(response.status).toEqual(403)
-        expect(response.body).toMatch(/forbidden/i)
+        expect(response.body.message).toMatch(/forbidden/i)
         expect(response.headers['content-type']).toMatch(/json/i)
     }
 }
