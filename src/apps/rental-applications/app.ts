@@ -1,4 +1,3 @@
-import { app } from "./config/config";
 import { Controller } from "./controllers/controller";
 import { DataAccess } from "./data-access/data-access";
 import { routesWrapper } from "./urls/urls";
@@ -14,4 +13,3 @@ const dataAccess = new DataAccess(Model)
 const controller = new Controller(dataAccess)
 
 const routes = routesWrapper(controller)
-app.use('/application-submission', routes)

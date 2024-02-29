@@ -7,6 +7,4 @@ const controller = new AuthController(dataAccess)
 
 export const authRoutes = routesWrapper(controller)
 
-// //Handle errors -- Unknown path
-// app.use(httpErrors.handleUnknownUrls)
-// app.use(httpErrors.handleServerErrors)
+

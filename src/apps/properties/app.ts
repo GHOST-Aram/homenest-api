@@ -1,4 +1,3 @@
-import { app } from "./config/config";
 import { routesWrapper } from "./urls/urls";
 import { RentalsController } from "./controller/controller";
 import { RentalDataAccess } from "./data-access/data-access";
@@ -14,6 +13,3 @@ const controller = new RentalsController(dataAccess)
 
 export const propertyRoutes = routesWrapper(controller)
 
-
-// app.use(httpErrors.handleUnknownUrls)
-// app.use(httpErrors.handleServerErrors)

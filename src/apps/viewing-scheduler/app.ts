@@ -1,4 +1,3 @@
-import { app } from "./config/config";
 import { Controller } from "./controllers/controller";
 import { DataAccess } from "./data-access/data-access";
 import { routesWrapper } from "./routes/urls";
