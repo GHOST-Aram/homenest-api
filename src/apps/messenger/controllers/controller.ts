@@ -55,9 +55,9 @@ export class Controller extends GenericController<DataAccess>{
             const hiddenMessage = await this.dataAccess.findReceivedMessageAndHide(messageId)
 
             if(hiddenMessage){
-                res.status(200).json({id: hiddenMessage.id})
+                this.respondWithDeletedResource(hiddenMessage.id, res)
             } else {
-                res.status(404).json('Not found')
+                this.respondWithNotFound(res)
             }
         } catch (error) {
             
