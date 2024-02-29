@@ -45,7 +45,6 @@ export class AuthController extends HttpResponse {
                 
         } catch (error) {
             next(error)
-            console.log(error)
         } 
     }
 }

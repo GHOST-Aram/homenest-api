@@ -1,5 +1,5 @@
 import express, { Application } from "express"
-import { Server } from "../z-library/server/server"
+import { Server } from "../../../z-library/server/server"
 import 'dotenv/config'
 import mongoose from "mongoose"
 
