@@ -14,7 +14,7 @@ export interface Gallery{
 
 export type GalleryModel = Model<Gallery>
 
-const gallerySchema = new Schema<Gallery, GalleryModel>({
+export const gallerySchema = new Schema<Gallery, GalleryModel>({
     assetId: { 
         type: String,
         required: true

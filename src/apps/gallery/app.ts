@@ -1,16 +1,16 @@
-import { app } from "./config/config";
+import { connection } from "../../config/config";
+import { DB } from "../../z-library/db/db";
 import { Controller } from "./controllers/controller";
 import { DataAccess } from "./data-access/data-access";
-import { Gallery } from "./data-access/model";
+import { gallerySchema } from "./data-access/model";
 import { routesWrapper } from "./urls/urls";
-import { httpErrors } from "./z-library/HTTP/http-errors";
+
+
+const dbConnection = connection.switch('gallery')
+const Gallery = new DB(dbConnection).createModel('Gallery', gallerySchema)
 
 
 const dataAccess = new DataAccess(Gallery)
 const controller = new Controller(dataAccess)
-const routes = routesWrapper(controller)
+export const galleryRoutes = routesWrapper(controller)
 
-app.use('/gallery', routes)
-
-app.use(httpErrors.handleUnknownUrls)
-app.use(httpErrors.handleServerErrors)

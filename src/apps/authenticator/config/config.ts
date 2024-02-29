@@ -27,7 +27,7 @@ if(MONGODB_URI){
 }
 
 
-const PORT = Number(process.env.CARTS_PORT) || 3700
+const PORT = Number(process.env.AUTH_PORT) || 3700
 server.listenToRequests(PORT, 'Authenticator')
 
 export { app }

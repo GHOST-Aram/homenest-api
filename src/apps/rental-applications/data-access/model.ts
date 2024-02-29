@@ -16,7 +16,7 @@ export interface ApplicationSubmission{
 export type ApplicationSubmissionModel = Model<ApplicationSubmission>
 
 
-const schema = new Schema<ApplicationSubmission, ApplicationSubmissionModel>({
+export const schema = new Schema<ApplicationSubmission, ApplicationSubmissionModel>({
     propertyApplied: {
         type: Schema.Types.ObjectId,
         ref: 'Rental',

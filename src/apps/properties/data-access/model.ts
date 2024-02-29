@@ -23,7 +23,7 @@ export interface Rental{
 
 export type RentalModel = Model<Rental>
 
-const rentalSchema = new Schema<Rental, RentalModel>({
+export const rentalSchema = new Schema<Rental, RentalModel>({
     propertyName: {
         type: String,
         required: true
