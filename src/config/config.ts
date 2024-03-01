@@ -19,7 +19,6 @@ let connection: Connection
 try {
     
     if(dbUri){
-        console.log('DB URI: ', dbUri)
         connection = new Connection(dbUri)
         
         const authDbConnection = connection.getInitial()

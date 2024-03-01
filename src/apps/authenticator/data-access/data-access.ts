@@ -1,11 +1,13 @@
-import mongoose, { HydratedDocument } from "mongoose"
+import  { Connection, HydratedDocument } from "mongoose"
 
 export class DataAccess{
-    
+    private authDbConnection: Connection
+
+    constructor(authDbConnection: Connection){
+        this.authDbConnection = authDbConnection
+    }
     public findUserByEmail = async(email: string
         ): Promise<HydratedDocument<any> | null> =>{
-       return await mongoose.connection.db.collection('users').findOne({ email })
+       return await this.authDbConnection.db.collection('users').findOne({ email })
     }    
 }
-
-export const dataAccess  = new DataAccess()

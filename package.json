@@ -2,7 +2,7 @@
   "name": "homenest",
   "version": "1.0.0",
   "description": "The Homenest Project backend API",
-  "main": "build/app.js",
+  "main": "src/app.ts",
   "scripts": {
     "test": "jest --watch",
     "dev": "nodemon src/app",
