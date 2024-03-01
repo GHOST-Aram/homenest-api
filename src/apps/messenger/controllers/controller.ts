@@ -2,8 +2,9 @@ import { DataAccess } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
 import { Response, Request, NextFunction } from "express";
 export class Controller extends GenericController<DataAccess>{
-    constructor(dataAccess: DataAccess){
-        super(dataAccess)
+    
+    constructor(dataAccess: DataAccess, microserviceName: string){
+        super(dataAccess, microserviceName)
     }
 
     public  getBySenderId = async(req: Request, res: Response, next: NextFunction) =>{

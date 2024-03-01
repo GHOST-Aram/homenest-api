@@ -5,8 +5,8 @@ import { GenericController } from "../../../z-library/bases/generic-controller"
 
 export class ReviewsController extends GenericController<ReviewDataAccess>{
 
-    constructor(dataAccess: ReviewDataAccess){
-        super(dataAccess)
+    constructor(dataAccess: ReviewDataAccess, microserviceName: string){
+        super(dataAccess, microserviceName)
     }
 
 
@@ -25,10 +25,10 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
 
         const paginator = this.paginate(req)
         try {
-            const reviews = await this.dataAccess
+            const reviewDocs = await this.dataAccess
                 .findByProductId(productId, paginator)
 
-            this.respondWithFoundResource(reviews, res)
+            this.respondWithFoundResource(reviewDocs, res)
         } catch (error) {
             next(error)
         }

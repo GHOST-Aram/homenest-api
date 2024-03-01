@@ -3,6 +3,12 @@ import { HydratedDocument } from "mongoose"
 
 export class HttpResponse{
 
+    public microserviceName: string
+
+    constructor(microserviceName: string){
+        this.microserviceName = microserviceName
+    }
+
     public respondWithMethodNotAllowed = (req: Request, res: Response) =>{
         res.status(405).json('Method not allowed' )
     }
@@ -11,8 +17,8 @@ export class HttpResponse{
         res.status(409).json('Document already exists')
     }
 
-    public respondWithCreatedResource = (resourceId: string, res: Response) =>{
-        res.location(`/carts/${resourceId}`)
+    public respondWithCreatedResource = (id: string, res: Response) =>{
+        res.location(`/${this.microserviceName}/${id}`)
         res.status(201).json('Created')
     }
 
@@ -45,12 +51,12 @@ export class HttpResponse{
     }
 
     public respondWithModifiedResource = (resourceId: string, res: Response) =>{
-        res.location(`/carts/${resourceId}`)
+        res.location(`/${this.microserviceName}/${resourceId}`)
         res.status(200).json( 'Modified' )
     } 
 
     public respondWithUpdatedResource = (resourceId: string, res: Response) =>{
-        res.location(`/carts/${resourceId}`)
+        res.location(`/${this.microserviceName}/${resourceId}`)
         res.status(200).json('Updated' )
     }
 

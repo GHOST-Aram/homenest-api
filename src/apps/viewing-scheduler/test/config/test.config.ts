@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 const dataAccess = new MockDataAccess(ViewScheduler)
-const controller = new Controller(dataAccess)
+const controller = new Controller(dataAccess, 'viewing')
 
 app.use('/viewing-scheduler', routesWrapper(controller))
 

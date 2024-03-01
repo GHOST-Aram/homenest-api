@@ -3,8 +3,8 @@ import { GenericController } from "../../../z-library/bases/generic-controller";
 import { Request, Response, NextFunction } from "express";
 
 export class Controller extends GenericController<DataAccess>{
-    constructor(dataAccess: DataAccess){
-        super(dataAccess)
+    constructor(dataAccess: DataAccess, microserviceName: string){
+        super(dataAccess, microserviceName)
     }
 
     public addNew = async(req: Request, res: Response, next: NextFunction) => {

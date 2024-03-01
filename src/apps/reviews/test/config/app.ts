@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }))
 
 
 const dataAccess = new DataAccess(Review)
-const controller = new ReviewsController(dataAccess)
+const controller = new ReviewsController(dataAccess, 'reviews')
 
 app.use('/reviews', routesWrapper(controller, authenticator))
 

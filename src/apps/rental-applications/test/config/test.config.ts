@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 const dataAccess = new DataAccess(ApplicationSubmission)
-const controller = new Controller(dataAccess)
+const controller = new Controller(dataAccess, 'applications')
 
 const routes = routesWrapper(controller)
 

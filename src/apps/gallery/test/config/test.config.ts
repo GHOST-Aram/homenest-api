@@ -10,7 +10,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 const dataAccess = new DataAccess(Gallery)
-const controller = new Controller(dataAccess)
+const controller = new Controller(dataAccess, 'gallery')
 const routes = routesWrapper(controller)
 
 app.use('/gallery', routes)

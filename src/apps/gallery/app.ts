@@ -11,7 +11,7 @@ const Gallery = new DB(dbConnection).createModel('Gallery', gallerySchema)
 
 
 const dataAccess = new DataAccess(Gallery)
-const controller = new Controller(dataAccess)
+const controller = new Controller(dataAccess, 'gallery')
 
 export const galleryRoutes = routesWrapper(controller)
 

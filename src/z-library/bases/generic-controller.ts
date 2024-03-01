@@ -8,8 +8,8 @@ export class GenericController <T extends Accessible>
 
     public dataAccess: T
 
-    constructor(dataAccess: T){
-        super()
+    constructor(dataAccess: T, microserViceName: string){
+        super(microserViceName)
         this.dataAccess = dataAccess
 }
 
@@ -63,7 +63,7 @@ export class GenericController <T extends Accessible>
                 this.respondWithUpdatedResource(updatedDoc.id, res)
             } else{
                 const newDoc = await this.dataAccess.createNew(updateDoc)
-                this.respondWithCreatedResource(newDoc.id, res)
+                this.addNew(req, res, next)
             }
 
         } catch (error) {

@@ -12,7 +12,7 @@ const db = new DB(dbConnection)
 const ReviewModel = db.createModel('Review', reviewSchema)
 const dataAccess  = new ReviewDataAccess(ReviewModel)
 
-const controller = new ReviewsController(dataAccess)
+const controller = new ReviewsController(dataAccess, 'reviews')
 
 export const reviewsRoutes = routesWrapper(controller, authenticator)
 

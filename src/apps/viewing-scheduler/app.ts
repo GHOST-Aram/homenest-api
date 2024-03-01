@@ -9,6 +9,6 @@ const dbConnection = connection.switch('homenest-viewing-scheduler')
 const model = new DB(dbConnection).createModel('ViewingScheduler', schema)
 
 const dataAccess = new DataAccess(model)
-const controller = new Controller(dataAccess)
+const controller = new Controller(dataAccess, 'viewing')
 
 export const routes = routesWrapper(controller)

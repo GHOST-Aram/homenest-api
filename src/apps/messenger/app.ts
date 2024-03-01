@@ -10,6 +10,6 @@ const dbConnection = connection.switch('homenest-messages')
 const MessageModel = new DB(dbConnection).createModel('Message', schema)
 
 const dataAccess =  new DataAccess(MessageModel)
-const controller = new Controller(dataAccess)
+const controller = new Controller(dataAccess, 'messages')
 
 export const messagesRoutes = routesWrapper(controller)

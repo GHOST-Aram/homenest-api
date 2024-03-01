@@ -4,8 +4,8 @@ import { GenericController } from "../../../z-library/bases/generic-controller";
 import { Gallery } from "../data-access/model";
 
 export class Controller extends GenericController<DataAccess>{
-    constructor(dataAccess: DataAccess){
-        super(dataAccess)
+    constructor(dataAccess: DataAccess, microsericeName:string){
+        super(dataAccess, microsericeName)
     }
 
     public addNew = async(req: Request, res: Response, next: NextFunction) =>{
@@ -51,8 +51,7 @@ export class Controller extends GenericController<DataAccess>{
             if(updatedDoc){
                 this.respondWithUpdatedResource(updatedDoc.id, res)
             } else{
-                const newDoc = await this.dataAccess.createNew(updateDoc)
-                this.respondWithCreatedResource(newDoc.id, res)
+                this.addNew(req, res, next)
             }
 
         } catch (error) {

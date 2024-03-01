@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 const usersDAL = new UsersDAL(User)
-const controller = new UsersController(usersDAL)
+const controller = new UsersController(usersDAL, 'users')
 app.use('/users', routesWrapper(controller, authenticator))
 
 export { app }

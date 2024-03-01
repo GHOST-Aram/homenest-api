@@ -8,7 +8,7 @@ const app: Application = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-const controller = new RentalsController(new RentalDataAccess(Rental))
+const controller = new RentalsController(new RentalDataAccess(Rental), 'properties')
 
 app.use( '/rentals', routesWrapper(controller))
 

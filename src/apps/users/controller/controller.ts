@@ -4,8 +4,8 @@ import { GenericController } from "../../../z-library/bases/generic-controller";
 
 export class UsersController extends GenericController<UsersDAL>{
 
-    constructor(dataAccessLayer: UsersDAL){
-        super(dataAccessLayer)
+    constructor(dataAccessLayer: UsersDAL, microserviceName: string){
+        super(dataAccessLayer, microserviceName)
     }
 
     public addNew = async(req: Request, res: Response, next: NextFunction) =>{
@@ -19,7 +19,7 @@ export class UsersController extends GenericController<UsersDAL>{
                 this.respondWithConflict(res)
             else {
                 const user = await this.dataAccess.createNew(userData)
-                this.respondWithCreatedResource(user.id, res)
+                this.respondWithCreatedResource(`/users/${user.id}`, res)
             }
         } catch (error) {
             next(error)

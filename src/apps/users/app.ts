@@ -11,6 +11,6 @@ const db = new DB(connection.switch('homenest-users'))
 const UserModel = db.createModel('User', userSchema)
 
 const usersDAL = new UsersDAL(UserModel)
-const controller = new UsersController(usersDAL)
+const controller = new UsersController(usersDAL, 'users')
 
 export const usersRouter = routesWrapper(controller, authenticator)

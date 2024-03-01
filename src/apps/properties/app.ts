@@ -9,7 +9,7 @@ const dbConnection = connection.switch('homenest-messages')
 const Rental = new DB(dbConnection).createModel('Rental', rentalSchema)
 
 const dataAccess = new RentalDataAccess(Rental)
-const controller = new RentalsController(dataAccess)
+const controller = new RentalsController(dataAccess, 'properties')
 
 export const propertyRoutes = routesWrapper(controller)
 

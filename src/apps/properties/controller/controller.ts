@@ -2,8 +2,8 @@ import { RentalDataAccess } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
 
 export class RentalsController extends GenericController<RentalDataAccess>{
-    constructor (dataAccess: RentalDataAccess){
-        super(dataAccess)
+    constructor (dataAccess: RentalDataAccess, microserviceName: string){
+        super(dataAccess, microserviceName)
     }
 
     public addNewRental = () =>{ return this.addNew }
