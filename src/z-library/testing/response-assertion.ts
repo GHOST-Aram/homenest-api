@@ -30,8 +30,7 @@ export class ResponseAssertion{
         expect(response.status).toEqual(201)
         expect(response.body).toMatch(/created/i)
         expect(response.headers['content-type']).toMatch(/json/)
-        expect(response.header.location).toMatch(
-            /\/[.\w]+\/[a-fA-F0-9]{24}/)
+        expect(response.header.location).toMatch(/^\/\w+(?:-\w+)*\/[0-9a-fA-F]{24}$/)
     }
 
     public respondsWithAllDataProperties = (properties: any[], response: Response) =>{
@@ -67,14 +66,12 @@ export class ResponseAssertion{
 
     public respondsWithModifedResource = (response: Response) =>{
         expect(response.body).toMatch(/modified/i)
-        expect(response.header.location).toMatch(
-            /^\/[.\w]+\/[a-fA-F0-9]{24}$/)
+        expect(response.header.location).toMatch(/^\/\w+(?:-\w+)*\/[0-9a-fA-F]{24}$/)
     }
     
     public respondsWithUpdatedResource = (response: Response) => {
         expect(response.body).toMatch(/updated/i)
-        expect(response.header.location).toMatch(
-            /^\/[.\w]+\/[a-fA-F0-9]{24}$/)
+        expect(response.header.location).toMatch(/^\/\w+(?:-\w+)*\/[0-9a-fA-F]{24}$/)
     }
 
     public respondsWithSuccess = (response: Response) =>{

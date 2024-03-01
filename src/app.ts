@@ -16,7 +16,7 @@ app.use('/properties', propertyRoutes)
 app.use('/messages', messagesRoutes)
 app.use('/reviews', reviewsRoutes)
 app.use('/viewing-scheduler', viewingScheduleRoutes)
-app.use('/applications', applicationsRoutes)
+app.use('/rental-applications', applicationsRoutes)
 
 //Handle errors -- Unknown path
 app.use(httpErrors.handleUnknownUrls)
