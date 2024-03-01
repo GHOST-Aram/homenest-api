@@ -9,16 +9,16 @@ export class Connection {
         
         this.initialConnection.on('error', (error) => {
             if(error){
-                throw new Error('Database connection failed')
+                console.log('Database connection failed')
             }
         })
 
         process.on('unhandledRejection', (reason: any, Promise) =>{
-            throw new Error('Reason for failure - ', reason.message)
+            console.log('Reason for failure - ', reason.message)
         })
 
         this.initialConnection.on('connected', () => {
-            throw new Error('Application Connected to Database')
+            console.log('Application Connected to Database')
         })
     }
 
