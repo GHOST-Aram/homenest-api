@@ -4,12 +4,11 @@ import { HttpResponse } from "../../../z-library/HTTP/http-response"
 import 'dotenv/config'
 import { auth } from "../domain/authenticator"
 
-export class AuthController extends HttpResponse {
+export class AuthController{
 
     private dataAccess: DataAccess
 
     constructor(dataAccess: DataAccess){
-        super()
         this.dataAccess = dataAccess
     }
 
@@ -46,5 +45,17 @@ export class AuthController extends HttpResponse {
         } catch (error) {
             next(error)
         } 
+    }
+
+    private respondWithUnauthorised = (res: Response) =>{
+        res.status(401).json('Unauthorised' )
+    }
+
+    private respondWithToken = (token: string, res: Response) =>{
+        res.status(200).json({ token })
+    }
+
+    public respondWithMethodNotAllowed = (req: Request, res: Response) =>{
+        res.status(405).json('Method not allowed' )
     }
 }
