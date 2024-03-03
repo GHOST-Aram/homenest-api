@@ -17,10 +17,11 @@ export class Controller extends GenericController<DataAccess>{
 
             if(existingDocument){
                 this.respondWithConflict(res)
+            } else {
+                const newDocument = await this.dataAccess.createNew(inputData)
+                this.respondWithCreatedResource(newDocument, res)
             }
 
-            const newDocument = await this.dataAccess.createNew(inputData)
-            this.respondWithCreatedResource(newDocument, res)
         } catch (error) {
             next(error)
         } 
