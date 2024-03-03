@@ -83,7 +83,7 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
             updateId, updateDoc)
 
         if(updatedReview !== null)
-            this.respondWithModifiedResource(updatedReview.id, res)    
+            this.respondWithModifiedResource(updatedReview, res)    
         else
             this.respondWithNotFound(res)
     }
