@@ -1,6 +1,5 @@
 import { NextFunction, Response, Request } from "express"
 import { DataAccess } from "../data-access/data-access"
-import { HttpResponse } from "../../../z-library/HTTP/http-response"
 import 'dotenv/config'
 import { auth } from "../domain/authenticator"
 
@@ -24,12 +23,13 @@ export class AuthController{
                 const user = await this.dataAccess.findUserByEmail(email)
                 
                 if(!user){
-                    this.respondWithUnauthorised(res)
+                    this.respondWithUnauthorised(res, 'Email not registered with the system.')
+
                 } else {
                     const isValidPassword = auth.verifyPassword(user?.password, password)
     
                     if(!isValidPassword){
-                        this.respondWithUnauthorised(res)
+                        this.respondWithUnauthorised(res, 'Incorrect password.')
                     } else {
                         const token = auth.issueToken({
                             email: user.email,
@@ -49,8 +49,8 @@ export class AuthController{
         } 
     }
 
-    private respondWithUnauthorised = (res: Response) =>{
-        res.status(401).json('Unauthorised. User not registered or wrong credentials.' )
+    private respondWithUnauthorised = (res: Response, reason?: string) =>{
+        res.status(401).json(`Unauthorised. ${reason ? reason : ''}` )
     }
 
     private respondWithToken = (token: string, res: Response) =>{

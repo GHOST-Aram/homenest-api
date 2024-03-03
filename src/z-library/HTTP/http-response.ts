@@ -65,12 +65,12 @@ export class HttpResponse{
         res.status(200).json({ message: 'Deleted',id })
     }
 
-    public respondWithForbidden = (res: Response, message?:string) =>{
-        res.status(403).json({ message: `Forbidden. ${ message ? message : ''}` })
+    public respondWithForbidden = (res: Response, reason?:string) =>{
+        res.status(403).json({ message: `Forbidden. ${ reason ? reason : ''}` })
     }
 
-    public respondWithUnauthorised = (res: Response) =>{
-        res.status(401).json('Unauthorised' )
+    public respondWithUnauthorised = (res: Response, reason?: string) =>{
+        res.status(401).json(`Unauthorised. ${reason}` )
     }
 
     public respondWithToken = (token: string, res: Response) =>{
