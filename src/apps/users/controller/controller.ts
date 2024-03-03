@@ -49,7 +49,7 @@ export class UsersController extends GenericController<UsersDAL>{
                 next(error)
             }
         }
-        }
+    }
 
 
 }

@@ -17,13 +17,13 @@ export class HttpResponse{
         res.status(409).json('Document already exists')
     }
 
-    public respondWithCreatedResource = (resource: HydratedDocument<any>, res: Response) =>{
+    public respondWithCreatedResource = (resource: HydratedDocument<Object>, res: Response) =>{
         res.location(`/${this.microserviceName}/${resource.id}`)
         res.status(201).json({message: 'Created', item: resource})
     }
 
     public respondWithFoundResource = (
-        resource: HydratedDocument<any>[]| HydratedDocument<any>, 
+        resource: HydratedDocument<Object>[]| HydratedDocument<Object>, 
         res: Response
         ) =>{
             res.status(200).json(resource)
@@ -50,12 +50,13 @@ export class HttpResponse{
         res.status(404).json('Not Found')
     }
 
-    public respondWithModifiedResource = (resourceId: string, res: Response) =>{
-        res.location(`/${this.microserviceName}/${resourceId}`)
-        res.status(200).json( 'Modified' )
+    public respondWithModifiedResource = (item: HydratedDocument<Object>, res: Response) =>{
+        res.location(`/${this.microserviceName}/${item.id}`)
+        res.status(200).json({ message: 'Modified', item } )
+        console.log('modifed item: ',item)
     } 
 
-    public respondWithUpdatedResource = (resource: HydratedDocument<any>, res: Response) =>{
+    public respondWithUpdatedResource = (resource: HydratedDocument<Object>, res: Response) =>{
         res.location(`/${this.microserviceName}/${resource.id}`)
         res.status(200).json({ message: 'Updated', item: resource})
     }

@@ -80,7 +80,7 @@ export class GenericController <T extends Accessible>
                 updateDoc)
 
             if(modifiedDoc){
-                this.respondWithModifiedResource(modifiedDoc.id, res)
+                this.respondWithModifiedResource(modifiedDoc, res)
             } else{
               this.respondWithNotFound(res)
             }
