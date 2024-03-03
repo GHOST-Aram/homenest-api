@@ -40,7 +40,7 @@ describe('Auth Post route', () => {
             password: 'CorrectPassword2030'
         })
 
-        assert.respondsWithSuccess(response)
+        assert.respondsWithConflict(response)
         assert.respondsWithToken(response)
     })
 })
