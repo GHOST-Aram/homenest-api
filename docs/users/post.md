@@ -48,3 +48,28 @@ The response body contains a message and the item created. The url of the create
 }
 ```
 
+Exampl:
+
+```
+    let request = require('request');
+    let options = {
+    'method': 'POST',
+    'url': 'http://localhost:8000/users',
+    'headers': {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        "last_name": "John",
+        "first_name": "Does",
+        "email": "johndoe@gmail.com",
+        "password": "password43",
+        "isAdmin": "true"
+    })
+
+    };
+    request(options, function (error, response) {
+    if (error) throw new Error(error);
+    console.log(response.body);
+    });
+```
+
