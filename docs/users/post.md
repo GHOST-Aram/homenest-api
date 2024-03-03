@@ -24,9 +24,11 @@ You do not need authorization to use this endpoint.
     
 
 #### Response
+The response body contains a message and the item created. The url of the created item in the `Location` header of the response object.
 
 - Status: 201 Created
 - Content-Type: application/json
+- Location: `/users/:id` - url of the created document
 - `message` (string): A message confirming the success of the user creation.
 - `item` (object): An object containing the details of the newly created user, including their first name, last name, email, password, isAdmin status, _id, and __v.
 
@@ -45,3 +47,4 @@ You do not need authorization to use this endpoint.
     }
 }
 ```
+
