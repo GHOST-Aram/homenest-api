@@ -8,7 +8,7 @@ describe('GET Reviews routes (Get reviews by product ID or random reviews)', () 
     test('Responds with validation errors, (status 400): '+
         'Invalid reference (product Id)', 
         async() =>{
-            const response = await request(app).get('/reviews/34522jdjd')
+            const response = await request(app).get('/reviews/properties/34522jdjd')
 
             assert.respondsWithBadRequest(response)
             assert.respondsWithValidationErrors(response)
@@ -28,7 +28,8 @@ describe('GET Reviews routes (Get reviews by product ID or random reviews)', () 
     test('Specific product review: Responds with paginated resource, status 200: '+
         'Default pagination => 10.', 
         async() =>{
-            const response = await request(app).get('/reviews')
+            const response = await request(app).get(
+                '/reviews/properties/64c9e4f2df7cc072af2ac9e4')
             
             assert.respondsWithSuccess(response)
             assert.respondsWithPaginatedResource(response, 10)
@@ -39,7 +40,7 @@ describe('GET Reviews routes (Get reviews by product ID or random reviews)', () 
         'Requested pagination.', 
         async() =>{
             const response = await request(app).get(
-                '/reviews/64c9e4f2df7cc072af2ac9e4?page=1&limit=23')
+                '/reviews/properties/64c9e4f2df7cc072af2ac9e4?page=1&limit=23')
             
             assert.respondsWithSuccess(response)
             assert.respondsWithPaginatedResource(response, 23)

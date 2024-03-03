@@ -21,7 +21,7 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
     //Get reviews for a specific products
     public getProductReviews = async(req: Request, res: Response, next: NextFunction) =>{
 
-        const productId = req.params.productId
+        const productId = req.params.id
 
         const paginator = this.paginate(req)
         try {

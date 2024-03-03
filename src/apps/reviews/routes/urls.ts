@@ -28,8 +28,8 @@ export const routesWrapper = (
     )
     
     
-    router.get('/:productId', 
-        validator.validateReferenceId('productId', { required: true}),
+    router.get('/properties/:id', 
+        validator.validateReferenceId('id', { required: true}),
         validator.handleValidationErrors,
         controller.getProductReviews
     )
