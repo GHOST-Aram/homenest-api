@@ -40,7 +40,7 @@ export class UsersController extends GenericController<UsersDAL>{
                     updateDoc)
     
                 if(updatedDoc){
-                    this.respondWithUpdatedResource(updatedDoc.id, res)
+                    this.respondWithUpdatedResource(updatedDoc, res)
                 } else{
                     this.addNew(req, res, next)
                 }

@@ -55,9 +55,9 @@ export class HttpResponse{
         res.status(200).json( 'Modified' )
     } 
 
-    public respondWithUpdatedResource = (resourceId: string, res: Response) =>{
-        res.location(`/${this.microserviceName}/${resourceId}`)
-        res.status(200).json('Updated' )
+    public respondWithUpdatedResource = (resource: HydratedDocument<any>, res: Response) =>{
+        res.location(`/${this.microserviceName}/${resource.id}`)
+        res.status(200).json({ message: 'Updated', item: resource})
     }
 
     public respondWithDeletedResource = (id: string, res: Response) =>{

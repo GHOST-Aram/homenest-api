@@ -72,7 +72,9 @@ export class ResponseAssertion{
     }
     
     public respondsWithUpdatedResource = (response: Response) => {
-        expect(response.body).toMatch(/updated/i)
+        expect(response.body.message).toMatch(/updated/i)
+        expect(response.body).toHaveProperty('item')
+        expect(response.body.item).toHaveProperty('_id')
         expect(response.header.location).toMatch(/^\/\w+(?:-\w+)*\/[0-9a-fA-F]{24}$/)
     }
 
