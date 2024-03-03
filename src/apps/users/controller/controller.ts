@@ -51,5 +51,27 @@ export class UsersController extends GenericController<UsersDAL>{
         }
     }
 
+    public deleteOne = async(req: Request, res: Response, next: NextFunction) => {
+        const referenceId = req.params.id
+        const currentUser:any = req.user
+
+        if(currentUser._id.toString() !== referenceId){
+            this.respondWithForbidden(res, 'User cannot delete information of other users.')
+        } else {
+            try {
+                const deletedDoc = await this.dataAccess.findByIdAndDelete(referenceId)
+    
+                if(deletedDoc){
+                    this.respondWithDeletedResource(deletedDoc.id, res)
+                } else{
+                  this.respondWithNotFound(res)
+                }
+    
+            } catch (error) {
+                next(error)
+            }
+        }
+    }
+
 
 }
