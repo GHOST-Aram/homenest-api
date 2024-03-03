@@ -28,16 +28,18 @@ export class AuthController{
                 } else {
                     const isValidPassword = auth.verifyPassword(user?.password, password)
     
-                    if(!isValidPassword)
+                    if(!isValidPassword){
                         this.respondWithUnauthorised(res)
+                    } else {
+                        const token = auth.issueToken({
+                            email: user.email,
+                            id: user._id ? user._id.toString() : user.id,
+                        }, secretOrkey )
+        
+                        this.respondWithToken(token, res)  
+                    }
                 } 
                 
-                const token = auth.issueToken({
-                    email: user.email,
-                    id: user._id ? user._id.toString() : user.id,
-                }, secretOrkey )
-
-                this.respondWithToken(token, res)  
             } else {
                 throw new Error('Token secret not Found.')
             }
@@ -48,11 +50,11 @@ export class AuthController{
     }
 
     private respondWithUnauthorised = (res: Response) =>{
-        res.status(401).json('Unauthorised' )
+        res.status(401).json('Unauthorised. User not registered or wrong credentials.' )
     }
 
     private respondWithToken = (token: string, res: Response) =>{
-        res.status(200).json({ token })
+        res.status(201).json({ token })
     }
 
     public respondWithMethodNotAllowed = (req: Request, res: Response) =>{
