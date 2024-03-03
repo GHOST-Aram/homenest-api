@@ -2,7 +2,13 @@
 
 ## Description
 
-This endpoint makes an HTTP GET request to retrieve a list of users from the server. The response will be in JSON format and will include the user details such as their unique ID, first name, last name, email, password, and an indicator of whether the user is an admin. The response will also include a version identifier.
+This endpoint makes an HTTP GET request to retrieve a list of users from the server. The response will be in JSON format and will include the user details such as their unique ID, first name, last name, email, password, and an indicator of whether the user is an admin. 
+
+The response returns a paginated list by default, the default pagination limit is 10, you can change this value using query parameters as shown below.
+
+```
+{{baseUrl}}/users?page=2&&limit=21
+```
 
 ## Authorization
 
