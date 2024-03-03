@@ -30,7 +30,6 @@ Example:
         first_name: "Darlene",
         last_name: "Hills",
         email: "Rafaela_Bergnaum5@yahoo.com",
-        password: "password43",
         isAdmin: "true"
     })
 

@@ -1,73 +1,54 @@
-### Update User Details
+## PUT `users/:id`
 
-## Description
+This endpoint allows you to apply full updates on the details of a specific user.
 
-This API endpoint allows you to update the details of a specific user. A user must be authenticated to update thier details. One user annot update the details of another user. 
+### Authorization
 
-## Authorization
-Visit the [authorization documentation](../../authentication/auth.md) to learn how to acquire authentication token.
+Only authorised users can modify their information. Visit the [authorization documentation](../../authentication/auth.md) to learn how to acquire authentication token.
 
-#### Request
-After acquiring the authorization token
-- Method: PUT
-- URL: {{baseUrl}}/users/65e1d64ea0b2e375e0b0a676
-- Headers:
-    - Content-Type: application/json
-- Body (raw, JSON):
-    
-    ``` json
-          {
-            "first_name": "",
-            "last_name": "",
-            "email": "",
-            "password": "",
-            "isAdmin": ""
-          }
-    
-     ```
-    
 
-#### Response
+### Request
 
-- Status: 200
-- Content-Type: application/json
-- Location: `/users/:id`
-- Body:
-    
-    ``` json
-          {
-            "message": "",
-            "item": {
-              "_id": "",
-              "first_name": "",
-              "last_name": "",
-              "email": "",
-              "password": "",
-              "isAdmin": true,
-              "__v": 0
-            }
-          }
-    
-     ```
-    
+Provide the id of the user as a url parameter. The id in the url parameter must be a 24 character hexadecimal string. Invalid ID will trigger error response. The id in the parameter has to be the same as the id of the user sending this request, this is because users can only update their own details and not the details of other users.
 
-#### Sample Usage
+Provide the authorization token as Bearer in the `Authorization` header of the request.
 
-``` javascript
-fetch('{{baseUrl}}/users/65e1d64ea0b2e375e0b0a676', {
-  method: 'PUT',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "password": "",
-    "isAdmin": ""
-  })
+The request body must contain all of the following details about the user:
+    - `first_name`: (string) The first name of the user.
+    - `last_name`: (string) The last name of the user.
+    - `email`: (string) The email address of the user.
+    - `password`: (string) The password of the user.
+    - `isAdmin`: (boolean) Indicates if the user is an admin.
+
+### Response
+
+A successfull PUT request receives a response with a status code of 200 if the document to be updated exists. If the document to be updated does not exist, a new document is be created and a response status code of 201 is sent. 
+
+The url of the updated user is available in the `Location` header of the response. The response body contains a json palyload with a text `message` and an object containing the updated user details.
+
+Example:
+
+```javascript
+(async() =>{
+    const body = JSON.stringify({
+        first_name: "Darlene",
+        last_name: "Hills",
+        email: "Rafaela_Bergnaum5@yahoo.com",
+        password: "password43",
+        isAdmin: "true"
+    })
+
+    const response = await fetch( 'http://localhost:8000/users/65e1d64ea0b2e375e0b0a676',{
+        method: 'PUT',
+        body,
+        headers:{
+            'Authorization': 'Bearer <token>'
+        }
+    })
+
+    const body = await response.json()
+    console.log('Message :', body.message)
+    console.log('User: ', body.item)
+    console.log('Status: ', response.status)
 })
-  .then(response => response.json())
-  .then(data => console.log(data));
-
- ```
+```
