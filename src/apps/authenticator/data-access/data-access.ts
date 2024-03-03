@@ -1,13 +1,13 @@
-import  { Connection, HydratedDocument } from "mongoose"
+import  { HydratedDocument } from "mongoose"
+import { connection } from "../../../config/config"
+
+const authDbConnection = connection.getInitial()
+
 
 export class DataAccess{
-    private authDbConnection: Connection
-
-    constructor(authDbConnection: Connection){
-        this.authDbConnection = authDbConnection
-    }
+  
     public findUserByEmail = async(email: string
         ): Promise<HydratedDocument<any> | null> =>{
-       return await this.authDbConnection.db.collection('users').findOne({ email })
+       return await authDbConnection.db.collection('users').findOne({ email })
     }    
 }
