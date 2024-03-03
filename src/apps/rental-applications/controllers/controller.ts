@@ -19,7 +19,7 @@ export class Controller extends GenericController<DataAccess>{
             }
 
             const newDocument = await this.dataAccess.createNew(inputData)
-            this.respondWithCreatedResource(newDocument.id, res)
+            this.respondWithCreatedResource(newDocument, res)
         } catch (error) {
             next(error)
         } 

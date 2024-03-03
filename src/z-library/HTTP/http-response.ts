@@ -17,9 +17,9 @@ export class HttpResponse{
         res.status(409).json('Document already exists')
     }
 
-    public respondWithCreatedResource = (id: string, res: Response) =>{
-        res.location(`/${this.microserviceName}/${id}`)
-        res.status(201).json('Created')
+    public respondWithCreatedResource = (resource: HydratedDocument<any>, res: Response) =>{
+        res.location(`/${this.microserviceName}/${resource.id}`)
+        res.status(201).json({message: 'Created', item: resource})
     }
 
     public respondWithFoundResource = (

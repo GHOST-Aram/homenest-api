@@ -18,7 +18,7 @@ export class GenericController <T extends Accessible>
 
         try {
             const newDocument = await this.dataAccess.createNew(inputData)
-            this.respondWithCreatedResource(newDocument.id, res)
+            this.respondWithCreatedResource(newDocument, res)
         } catch (error) {
             next(error)
         }   

@@ -19,7 +19,7 @@ export class UsersController extends GenericController<UsersDAL>{
                 this.respondWithConflict(res)
             else {
                 const user = await this.dataAccess.createNew(userData)
-                this.respondWithCreatedResource(user.id, res)
+                this.respondWithCreatedResource(user, res)
             }
         } catch (error) {
             next(error)
