@@ -25,4 +25,31 @@ export class UsersController extends GenericController<UsersDAL>{
             next(error)
         }
     }
+
+    public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
+        const referenceId = req.params.id
+        const updateDoc = req.body
+        const currentUser:any = req.user
+
+        if(currentUser._id.toString() !== referenceId){
+            this.respondWithForbidden(res)
+        } else {
+
+            try {
+                const updatedDoc = await this.dataAccess.findByIdAndUpdate(referenceId, 
+                    updateDoc)
+    
+                if(updatedDoc){
+                    this.respondWithUpdatedResource(updatedDoc.id, res)
+                } else{
+                    this.addNew(req, res, next)
+                }
+    
+            } catch (error) {
+                next(error)
+            }
+        }
+        }
+
+
 }
