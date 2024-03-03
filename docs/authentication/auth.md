@@ -1,49 +1,45 @@
 ## Authorization `/auth` 
 
-This endpoint allows users to authenticate and obtain a token for accessing protected resources. The HTTP POST request should be made to {{baseUrl}}/auth with the following payload in raw request body type:
+This endpoint allows users to authenticate and obtain a token for accessing protected resources.
+The endpoint responds with a json web token for valid user information.
 
+### Request 
+The endpoints accepts an a registered valid `email` andress and an alphanumeric `password` as inputs.
 
 ``` json
 {
-    "email": "",
-    "password": ""
+    "email": "<registered user email>",
+    "password": "< Correct user password>"
 }
 
  ```
 
 ### Response
-
-- Status: 200
-- Content-Type: application/json
-    
-
-The response will contain a token that can be used for further authenticated requests.
+The endpoint responds with status code 201 and the json web token string in the response body.
 
 ``` json
 {
-    "token": ""
+    "token": "<token>"
 }
-
  ```
 
 Example
 
-```
-    let request = require('request');
-    let options = {
-    'method': 'POST',
-    'url': 'http://localhost:8000/auth',
-    'headers': {
-        'Content-Type': 'application/json'
-    },
+```javascript
+(async() =>{
     body: JSON.stringify({
-        "email": "Curtis.Kreiger@gmail.com",
-        "password": "password43"
+        email: "Curtis.Kreiger@gmail.com",
+        password: "password43"
     })
 
-    };
-    request(options, function (error, response) {
-        if (error) throw new Error(error);
-    console.log(response.body);
-    });
+    
+    const response = await fetch('http://localhost:8000/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body
+    })
+
+    const body = await response.json()
+    console.log('Token: ', body.token)
+})
 ```
