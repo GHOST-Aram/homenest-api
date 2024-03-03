@@ -1,6 +1,6 @@
 ## GET /reviews/properties/:propertyId
 
-This endpoint makes an HTTP GET request to retrieve all the reviews for the property with the specified ID. Upon a successful request, the server responds with a status code of 200 and a JSON object containing an array of reviews made for the specified product. Each review object includes the author id, property id, review content content and creation date.
+This endpoint allows you to retrieve all the reviews for the property with the specified ID. Upon a successful request, the server responds with a status code of 200 and a JSON object containing an array of reviews made for the specified property. Each review object includes the author id, property id, review content content and creation date.
 
 ### Authorization
 All users including unregistered can access this endpoint.
