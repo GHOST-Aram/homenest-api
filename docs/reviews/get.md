@@ -1,18 +1,28 @@
 ## GET /reviews
 
-### Description
-This endpoint sends an HTTP GET request to retrieve a list of reviews. The response will be in JSON format and will include an array of review objects, each containing the _id, author, product, content, and createdAt fields.
-
-The list of documentation is paginated to a limit of 10 items by default. You can define your prefered pagination using query parameters as shown below
-
-`/reviews?page=2&&limit=21`
+This endpoint sends an HTTP GET request to retrieve a list of reviews. The response will be in JSON format and will include an array of review objects, each containing the _id, author, product, content, and createdAt fields. 
 
 ### Athorization
-This endpoint is only accessible to users with admin rights. Visit [authorization documentation](../authentication/auth.md) to get an authorization token.
+This endpoint is only accessible to users with admin rights. Only admis are allowed to view the entire list of reviews in the database without specifying a product id. Visit [authorization documentation](../authentication/auth.md) to get an authorization token. Once you receive the token, include it in the `Authorization` header of your request as Bearer.
+
+
+### Request
+The endpoint is programmed to request for a list with a default pagination of limit 10 unless a different value is provided. You can define your prefered pagination using query parameters as shown below.
+
+`/reviews?page=<page_number>&&limit=<length_of_reviews_list>`
+
+For example, if you want the response to send an array containing 21 reviews begining from the 22nd review in the database, you can write your request url as `/reviews?page=2&&limit=21`.
+
+### Response
+The endpoint responds with status code 200 and a list of reviews. A GET request with query parameters will receive an array containing not more than the number of items represented by the `limit` param. A request sent without query parameters will be processed with a default pagination limit of 10.
+
+
+Example: 
 
 ```javascript
+(async() =>{
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IkN1cnRpcy5LcmVpZ2VyQGdtYWlsLmNvbSIsImlhdCI6MTcwOTQ0NTQzMiwiZXhwIjoxNzEyMDM3NDMyLCJzdWIiOiI2NWU0MTEwZWMzOTBiMTE0NDUxY2ViYjkifQ.aiH16cbvD3X2k7ShM5ylHQhh5YAKPCPhF-kuPF31u14");
+    myHeaders.append("Authorization", "Bearer <token>");
 
     const requestOptions = {
         method: "GET",
@@ -20,8 +30,17 @@ This endpoint is only accessible to users with admin rights. Visit [authorizatio
         redirect: "follow"
     };
 
-    fetch("http://localhost:8000/reviews", requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
+    try{
+        const reponse = await fetch("http://localhost:8000/reviews?page=2&&limit=21", requestOptions)
+
+        const body = await response.json()
+        console.log('reviews: ', body)
+    } catch(error){
+        console.log(error)
+    }
+})
 ```
+
+
+
+
