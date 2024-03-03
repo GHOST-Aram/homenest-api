@@ -1,75 +1,55 @@
-### POST
+## POST `/users`
 
 This endpoint allows you to create a new user.
 
 ### Authorization
-
 You do not need authorization to use this endpoint.
 
-#### Request Body
+### Request
+Users can be created as either admins or regular users. To create a new user, provide the following user details in the request body:
 
-- `first_name` (text, required): The first name of the user.
-- `last_name` (text, required): The last name of the user.
-- `email` (text, required): The email address of the user.
-- `password` (text, required): The password for the user.
-
-```json
-    {
-        "first_name": "Curtis",
-        "last_name": "Moore",
-        "email": "Nyasia.Kreiger@gmail.com",
-        "password":"password43"
-    }
+```typescript
+    first_name: string
+    last_name: string
+    email: string
+    password: string // must be a minimum of 8 character and alphanumeric
+    isAdmin?: boolean //optional
 ```
+
+If the value of the `isAdmin` property is not provided, the server will use `false` as default.
     
 
-#### Response
-The response body contains a message and the item created. The url of the created item in the `Location` header of the response object.
+### Response
 
-- Status: 201 Created
-- Content-Type: application/json
-- Location: `/users/:id` - url of the created document
-- `message` (string): A message confirming the success of the user creation.
-- `item` (object): An object containing the details of the newly created user, including their first name, last name, email, password, isAdmin status, _id, and __v.
+A successful response from this endpoint has the status code 201. The response body contains a text `message` and an `item` representing the created user document. The url of the created item in the `Location` header of the response object.
 
 
-```json
-{
-    "message": "Created",
-    "item": {
+
+
+Example:
+
+```javascript
+(async() =>{
+    const body =  JSON.stringify({
         "first_name": "Curtis",
         "last_name": "Moore",
         "email": "Nyasia.Kreiger@gmail.com",
-        "password": "$2b$10$fhpVZKdeDpRU0rNZx6Wx7Ove2/x/N1BY487hKh.g8.MYglyxmeRyG",
-        "isAdmin": false,
-        "_id": "65e40da5c390b114451cebb5",
-        "__v": 0
-    }
-}
-```
-
-Exampl:
-
-```
-    let request = require('request');
-    let options = {
-    'method': 'POST',
-    'url': 'http://localhost:8000/users',
-    'headers': {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        "last_name": "John",
-        "first_name": "Does",
-        "email": "johndoe@gmail.com",
         "password": "password43",
         "isAdmin": "true"
     })
+    
+    const response = await fetch('http://localhost:8000/users', {
+        method: 'POST',
+        body,
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    })
 
-    };
-    request(options, function (error, response) {
-    if (error) throw new Error(error);
-    console.log(response.body);
-    });
+    const body = await response.json()
+
+    console.log('User: ', body.item)
+    console.log('Message: ', body.message)
+
+})
 ```
-
