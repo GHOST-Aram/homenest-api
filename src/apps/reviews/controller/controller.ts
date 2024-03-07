@@ -73,7 +73,7 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
             currentUser._id.toString()
                 
         if(!authorIsCurrentUser)
-            this.respondWithForbidden(res)
+            this.respondWithForbidden(res, 'You cannot modify a review created by other users.')
         else
             return
     }
