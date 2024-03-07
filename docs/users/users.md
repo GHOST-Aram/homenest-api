@@ -1,25 +1,25 @@
-## Users Endpoint
+# Users Endpoint
 Welcome to the Users Endpoint. This document provideds links to the documentations on all the possible CRUD operations on users.
 
 Available Operations:
 
-### GET Multiple Users
+## GET Multiple Users
 Retrieve paginated lists of users in the system.
 - [Visit the documentation](./get.md)
 
-### GET Multiple Users
+## GET Multiple Users
 Retrieve information about a specific user by id.
 - [Visit the documentation](./[id]/get.md)
 
-### POST User
+## POST User
 Create a new user.
 - [See Documentation](./post.md)
 
-### PUT User
+## PUT User
 Update user information.
 - [See Documenatation](./[id]/put.md)
 
-### PATCH User
+## PATCH User
 Apply partial modifications on a user by id.
 - [See Documenatation](./[id]/patch.md)
 
