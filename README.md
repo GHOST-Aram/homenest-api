@@ -19,7 +19,7 @@ The Homenest system will provide a listing of available properties with search f
 The system comprises of the following components
 
 ## 1. Authenticator.
-Provides authentication and authorization service to all users of the system
+Provides authentication and authorization service to all users of the system. The authentication service uses JSON web tokens. See the [documentation](./docs/authentication/auth.md) for more details on how it works.
 
 ## 2. Gallery
 This component manages all the images uploaded by a tenant for a specific property
@@ -34,10 +34,10 @@ Properties component manages all the information about properties listed on the 
 This component manages applications from tenants on specific properties that they are interested in.
 
 ## 6. Reviews
-Reviews component manages reviews from tenants about their experiences on the places they have lived in. These reviews will be available under the properties that users commented on.
+Reviews component manages reviews from tenants about their experiences on the places they have lived in. These reviews will be available under the properties that users commented on. See [documentation](./docs/reviews/)
 
 ## 7. Users
-Users component manages all user data including tenants, landlords and admins.
+Users component manages all user data including tenants, landlords and admins. See [documentation](./docs/users/)
 
 ## 8. Viewing Scheduler
 Viewing scheduler component enables users to schedule the time and day that they wish to visit the properties in person.
