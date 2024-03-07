@@ -7,7 +7,7 @@ Available Operations:
 Retrieve paginated lists of users in the system.
 - [Visit the documentation](./get.md)
 
-## GET Multiple Users
+## GET One User
 Retrieve information about a specific user by id.
 - [Visit the documentation](./[id]/get.md)
 
