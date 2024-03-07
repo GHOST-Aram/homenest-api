@@ -1,15 +1,5 @@
 ## Users Endpoint
-
-- [POST](./post.md)
-- [GET](./get.md)
-- [GET BY ID](./[id]/get.md)
-- [PUT](./[id]/put.md)
-- [PATCH](./[id]/patch.md)
-- [DELETE](./[id]/delete.md)
-
-
-## Users Endpoint Documentation
-Welcome to the Users Endpoint Documentation. This document provideds links to the documentations on all the possible CRUD operations on users.
+Welcome to the Users Endpoint. This document provideds links to the documentations on all the possible CRUD operations on users.
 
 Available Operations:
 
@@ -37,6 +27,6 @@ Apply partial modifications on a user by id.
 Remove a user by ID.
 - [See documentation](./[id]/delete.md)
 
-Each operation documentation provides detailed information about the request structure, response format, and any additional parameters or considerations necessary for interacting with the Users endpoint.
+Each documentation linked above provides detailed information about the request structure, response format, and any additional parameters necessary for interacting with the Users endpoint.
 
 Please select the operation you are interested in to proceed with the documentation
