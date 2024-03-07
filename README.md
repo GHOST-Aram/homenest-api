@@ -7,7 +7,7 @@ The system comprises of the following components
 
 
 ## 1. Users
-Users component manages all user data including tenants, landlords and admins. See [documentation](./docs/users/)
+Users component manages all user data including tenants, landlords and admins. See [documentation](./docs/users/users.md)
 
 ## 2. Authenticator.
 Provides authentication and authorization service to all users of the system. The authentication service uses JSON web tokens. See the [documentation](./docs/authentication/auth.md) for more details on how it works.
