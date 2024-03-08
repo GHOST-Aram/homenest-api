@@ -2,11 +2,11 @@ import { Router } from "express";
 import { RentalsController } from "../controller/controller";
 import { optionalValidator, rentalPostValidator } from "./input-validation";
 import { validator } from "../../../z-library/validation/validator";
-import { authenticator } from '../../../z-library/auth/auth'
+import { Authenticatable } from '../../../z-library/auth/auth'
 
 const router = Router()
 
-export const routesWrapper = (controller: RentalsController) =>{
+export const routesWrapper = (controller: RentalsController, authenticator: Authenticatable) =>{
 
     router.post('/:id', controller.respondWithMethodNotAllowed)
     router.post('/', 
