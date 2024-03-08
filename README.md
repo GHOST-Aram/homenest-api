@@ -16,7 +16,7 @@ Provides authentication and authorization service to all users of the system. Th
 Properties component manages all the information about properties listed on the platform.
 
 ## 4. Reviews
-Reviews component manages reviews from tenants about their experiences on the places they have lived in. These reviews will be available under the properties that users commented on. See [documentation](./docs/reviews/)
+Reviews component manages reviews from tenants about their experiences on the places they have lived in. These reviews will be available under the properties that users commented on. See [documentation](./docs/reviews/reviews.md)
 
 ## 5. Gallery
 This component manages all the images uploaded by a tenant for a specific property
