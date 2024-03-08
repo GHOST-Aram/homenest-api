@@ -8,6 +8,14 @@ import { Paginator } from '../../../../z-library/HTTP/http-response'
 import { reviewData } from './raw-data'
 import { ReviewDataAccess, SearchDoc } from '../../data-access/data-access'
 
+const REVIEW_DATA = {
+    authorId: '64c9e4f2df7cc072af2ac9e4',
+    propertyId: '64c9e4f2df7cc072af2ac9e8',
+    content: 'Lorem ipsis'
+}
+
+const EXISTING_REVIEW_ID = '64c9e4f2df7cc072af2ac9e4'
+
 export class DataAccess extends ReviewDataAccess{
 
 
@@ -27,61 +35,11 @@ export class DataAccess extends ReviewDataAccess{
     public findByReferenceId = jest.fn(
 
         async(id: string): Promise<HydratedReviewDoc | null> =>{
-            /**
-             * this mock funtion returns two kinds of documents or null
-             * Document 1 - A review document that is  was authored by current  user
-             * Document 2- A random review documents that was not authored by 
-             * current user. This is because we are searching for a review document
-             * by review ID. 
-             * 
-             * One user may have written several reiviews and a product
-             * can have many reivews too. So the only remaining unique identifier 
-             * in the review document is the reiview ID.
-             * 
-             * This mock function cares about the current user ID because we need to
-             * test that our controller methods allows users to modify only the
-             * reviews that they created. Because many reviews can be presented under a product
-             * including the ones that were not written by current user, we need to ensure
-             * that the current user cannot modify the revews they did not create.
-             */
-            const expectedCurrentUserId =  '64c9e4f2df7cc072af2ac9e4'
-            const notCurrentUserId = '99c9e4f2df7cc072af2ac9e4'
+        if(id === EXISTING_REVIEW_ID)
+            return new this.model(REVIEW_DATA)
 
-            if( id === notCurrentUserId){ 
-                /**
-                 * This value will be used to test that current user is not 
-                 * permitted to edit random reviews that they did not create.
-                 */
-                const notAuthoredByCurrentUser = new this.model({
-                    authorId: '77c6e4f2df7cc072af2ac9e8',//Not current user
-                    propertyId: '64c9e4f2df7cc072af2ac9e8',
-                    content: 'Lorem ipsos'
-                })
-                
-                return notAuthoredByCurrentUser
-
-            } else if(id === expectedCurrentUserId){ 
-                /**
-                 * This value is used to test that the current user is allowed to
-                 * modify the reviews that they created.
-                 */
-                const authoredByCUrrentUser =  new this.model({
-                    authorId: '64c9e4f2df7cc072af2ac9e8',//Current user Id
-                    propertyId: '64c9e4f2df7cc072af2ac9e8',
-                    content: 'Lorem ipsol'
-                })
-
-                return authoredByCUrrentUser
-                
-            } else {
-                /**
-                 * This return value is used to test that the client will receive a 404
-                 * response if they are requesting does not exist in the db.
-                 */
-                    return null 
-            }
-        }
-    )
+        return null 
+    })
     
     public findByPropertyId = jest.fn(
 
@@ -89,9 +47,8 @@ export class DataAccess extends ReviewDataAccess{
 
             const idOfProductWithReviews = '64c9e4f2df7cc072af2ac9e4'
             let mockReviews: HydratedReviewDoc[] = []
-
             if(propertyId === idOfProductWithReviews)
-                mockReviews = this.createMockReviewsArray(paginator.limit)
+                return this.createMockReviewsArray(paginator.limit)
 
             return mockReviews
         }
@@ -111,43 +68,26 @@ export class DataAccess extends ReviewDataAccess{
     }
 
     public findWithPagination = jest.fn(
-
         async(paginator: Paginator): Promise<HydratedReviewDoc[]> =>{
-
-            const mockFoundReviews =  this.createMockReviewsArray(paginator.limit)
-            return mockFoundReviews
+            return this.createMockReviewsArray(paginator.limit)
         }
     )
 
-    public findOneAndUpdate = jest.fn(async({ id, authorId }: SearchDoc, updatedDoc: Object
-        ): Promise<HydratedReviewDoc | null> =>{
+    public findOneAndUpdate = jest.fn(
+        async({ id, authorId }: SearchDoc, updatedDoc: Object): Promise<HydratedReviewDoc | null> =>{
+            if(id === EXISTING_REVIEW_ID)
+                return new this.model(REVIEW_DATA)
 
-            const exisitingReview = '64c9e4f2df7cc072af2ac9e4'
-
-            if(id === exisitingReview){
-                const authoredByCUrrentUser =  new this.model({
-                    authorId: '64c9e4f2df7cc072af2ac9e4',//Current user Id
-                    propertyId: '64c9e4f2df7cc072af2ac9e8',
-                    content: 'Lorem ipsis'
-                })
-
-                return authoredByCUrrentUser
-
-            } else return null   //Not Found
+            return null 
             
     })
 
     public findOneAndDelete = jest.fn(
         async({ id, authorId }: SearchDoc): Promise<HydratedReviewDoc | null> =>{
+            if(id === EXISTING_REVIEW_ID)
+                return new this.model(reviewData)
 
-            const idOfAvailableReview = '64c9e4f2df7cc072af2ac9e4'
-
-            if(id === idOfAvailableReview){
-
-                const mockdeletedReview =  new this.model(reviewData)
-                return mockdeletedReview
-
-            } else return null
+            return null
         }
     )
 }
