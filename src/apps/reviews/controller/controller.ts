@@ -81,7 +81,7 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
             currentUser._id.toString()
                 
         if(!authorIsCurrentUser)
-            this.respondWithForbidden(res, 'You cannot modify a review created by other users.')
+            this.respondWithForbidden(res, 'You cannot change a review created by other users.')
         else
             return
     }
@@ -105,18 +105,26 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
             const reviewId = req.params.reviewId
             
             try {
-                const deletedReview = await this.dataAccess.findByIdAndDelete(
-                    reviewId)
-    
-                if(deletedReview !== null)
-                    this.respondWithDeletedResource( deletedReview.id, res)
-                else
+                const toBeDeleted = await this.dataAccess.findByReferenceId(reviewId)
+
+                if(toBeDeleted){
+                    this.handleForbiddenRequest(toBeDeleted, currentUser, res)
+                    this.handleDeletion(reviewId, res)
+                } else {
                     this.respondWithNotFound(res)
+                }
             } catch (error) {
                 next(error)
             }    
         } else{
             this.respondWithForbidden(res)
         }
+    }
+
+    private handleDeletion = async(reviewId: string, res: Response) =>{
+        const deletedReview = await this.dataAccess.findByIdAndDelete(
+            reviewId)
+        if(deletedReview)
+            this.respondWithDeletedResource( deletedReview.id, res)
     }
 }
