@@ -1,5 +1,5 @@
 import express, { Application } from "express"
-import { routesWrapper } from "../../urls/urls"
+import { routesWrapper } from "../../urls/test-urls"
 import { RentalsController } from "../../controller/controller"
 import { RentalDataAccess } from "../mocks/mock-data-access"
 import { Rental } from "../../data-access/model"
