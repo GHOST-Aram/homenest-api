@@ -13,7 +13,7 @@ Users component manages all user data including tenants, landlords and admins. S
 Provides authentication and authorization service to all users of the system. The authentication service uses JSON web tokens. See the [documentation](./docs/authentication/auth.md) for more details on how it works.
 
 ## 3. Properties
-Properties component manages all the information about properties listed on the platform.
+Properties component manages all the information about properties listed on the platform. [See documentation](./docs/properties/properties.md)
 
 ## 4. Reviews
 Reviews component manages reviews from tenants about their experiences on the places they have lived in. These reviews will be available under the properties that users commented on. See [documentation](./docs/reviews/reviews.md)
