@@ -30,13 +30,43 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         try {
             const updatedDoc = await this.dataAccess.findOneAndUpdate({id: referenceId, 
                 agentId:currentUser._id.toString() }, 
-                {...updateDoc, agentId:currentUser._id.toString()}
-            )
+
+                {
+                    ...updateDoc, 
+                    // Override the value of agentId - Ensure it's always curentUser's Id
+                    agentId:currentUser._id.toString()
+            })
 
             if(updatedDoc){
                 this.respondWithUpdatedResource(updatedDoc, res)
             } else{
                 this.addNew(req, res, next)
+            }
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
+        const referenceId = req.params.id
+        const updateDoc = req.body
+        const currentUser:any = req.user
+
+        try {
+            const modifiedDoc = await this.dataAccess.findOneAndUpdate(
+                {id: referenceId, agentId: currentUser._id.toString()}, 
+                { 
+                    ...updateDoc, 
+                    //Override the value of agentId with currentUser id
+                    // incase user attempts to change it.
+                    agentId: updateDoc.agentId? currentUser._id.toString(): undefined 
+                })
+
+            if(modifiedDoc){
+                this.respondWithModifiedResource(modifiedDoc, res)
+            } else{
+              this.respondWithNotFound(res)
             }
 
         } catch (error) {
