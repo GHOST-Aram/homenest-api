@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express"
 import { ReviewDataAccess } from "../data-access/data-access"
-import { HydratedReviewDoc } from "../data-access/model"
 import { GenericController } from "../../../z-library/bases/generic-controller"
 
 export class ReviewsController extends GenericController<ReviewDataAccess>{
@@ -17,7 +16,6 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
             const newDocument = await this.dataAccess.createNew({...inputData, 
                 authorId: currentUser._id.toString() })
 
-                console.log("New document: ", newDocument)
             this.respondWithCreatedResource(newDocument, res)
         } catch (error) {
             next(error)
@@ -63,18 +61,6 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
 
     }
 
-    private handleForbiddenRequest = (
-        toBeModified: HydratedReviewDoc, currentUser:any, res: Response) =>{
-        const authorIsCurrentUser = toBeModified.authorId.toString() === 
-            currentUser._id.toString()
-                
-        if(!authorIsCurrentUser)
-            this.respondWithForbidden(res, 'You cannot change a review created by other users.')
-        else
-            return
-    }
-
-
     public deleteOne = async (req: Request, res: Response, next: NextFunction) =>{
         const currentUser:any = req.user
         const reviewId = req.params.reviewId
@@ -92,12 +78,5 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
         } catch (error) {
             next(error)
         }    
-    }
-
-    private handleDeletion = async(reviewId: string, res: Response) =>{
-        const deletedReview = await this.dataAccess.findByIdAndDelete(
-            reviewId)
-        if(deletedReview)
-            this.respondWithDeletedResource( deletedReview.id, res)
     }
 }
