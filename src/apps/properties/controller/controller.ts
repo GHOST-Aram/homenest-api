@@ -74,4 +74,26 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         }
     }
 
+    public deleteOne = async(req: Request, res: Response, next: NextFunction) => {
+        const referenceId = req.params.id
+        const currentUser: any = req.user
+        try {
+            const deletedDoc = await this.dataAccess.findOneAndDelete(
+                {
+                    id: referenceId, 
+                    agentId: currentUser._id.toString()
+                }
+            )
+
+            if(deletedDoc){
+                this.respondWithDeletedResource(deletedDoc.id, res)
+            } else{
+              this.respondWithNotFound(res)
+            }
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
 }

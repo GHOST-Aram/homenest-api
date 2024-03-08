@@ -39,6 +39,9 @@ export class RentalDataAccess implements Accessible{
     public findOneAndUpdate = jest.fn(async(searchDoc: SearchDoc, updatedDoc: Object): Promise<HydratedRentalDoc | null> =>{
         return searchDoc.id === AVAILABLE_ID ? new this.model(rentalData) : null
     })
+    public findOneAndDelete = jest.fn(async(searchDoc: SearchDoc): Promise<HydratedRentalDoc | null> =>{
+        return searchDoc.id === AVAILABLE_ID ? new this.model(rentalData) : null
+    })
 }
 
 const createFakeRentalDocs = (limit: number): HydratedRentalDoc[] =>{

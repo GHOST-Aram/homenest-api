@@ -15,6 +15,12 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
             _id: new Types.ObjectId(searchDoc.id)
         }, updatedDoc, { new: true })
     }
+    public findOneAndDelete = async(searchDoc:SearchDoc ): Promise<HydratedRentalDoc | null> =>{
+        return await this.model.findOneAndDelete({
+            agentId:searchDoc.agentId,
+            _id: new Types.ObjectId(searchDoc.id)
+        })
+    }
 }
 
 export type SearchDoc = {
