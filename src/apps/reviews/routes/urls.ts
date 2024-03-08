@@ -26,6 +26,11 @@ export const routesWrapper = (
         authenticator.allowAdminUser,
         controller.getMany
     )
+
+    router.get('/:id', validator.validateReferenceId('id', { required: true }),
+        validator.handleValidationErrors,
+        controller.getOne
+    )
     
     
     router.get('/properties/:id', 

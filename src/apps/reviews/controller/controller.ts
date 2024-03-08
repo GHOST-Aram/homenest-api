@@ -10,14 +10,6 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
     }
 
 
-    public getOne = async(req: Request, res: Response, next: NextFunction) => {
-        //Getting a specific review with specific review id is not allowed
-        // Reviews can only be accessed a a collection of random reviews of a collection
-        // of reviews on a specific product.
-        this.respondWithMethodNotAllowed(req, res)
-    }
-
-
     //Get reviews for a specific products
     public getProductReviews = async(req: Request, res: Response, next: NextFunction) =>{
 
