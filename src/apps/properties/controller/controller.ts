@@ -21,4 +21,27 @@ export class RentalsController extends GenericController<RentalDataAccess>{
             next(error)
         }   
     }
+
+    public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
+        const referenceId = req.params.id
+        const updateDoc = req.body
+        const currentUser:any = req.user
+
+        try {
+            const updatedDoc = await this.dataAccess.findOneAndUpdate({id: referenceId, 
+                agentId:currentUser._id.toString() }, 
+                {...updateDoc, agentId:currentUser._id.toString()}
+            )
+
+            if(updatedDoc){
+                this.respondWithUpdatedResource(updatedDoc, res)
+            } else{
+                this.addNew(req, res, next)
+            }
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
 }

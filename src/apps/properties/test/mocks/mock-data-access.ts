@@ -4,6 +4,7 @@ import { Paginator } from "../../../../z-library/HTTP/http-response";
 import { jest } from "@jest/globals";
 import { Accessible } from "../../../../z-library/bases/accessible";
 import { rentalData } from "./raw-document";
+import { SearchDoc } from "../../data-access/data-access";
 
 const AVAILABLE_ID = '64c9e4f2df7cc072af2ac9e4'
 
@@ -35,6 +36,9 @@ export class RentalDataAccess implements Accessible{
         return id === AVAILABLE_ID ? new this.model(rentalData) : null
     })
 
+    public findOneAndUpdate = jest.fn(async(searchDoc: SearchDoc, updatedDoc: Object): Promise<HydratedRentalDoc | null> =>{
+        return searchDoc.id === AVAILABLE_ID ? new this.model(rentalData) : null
+    })
 }
 
 const createFakeRentalDocs = (limit: number): HydratedRentalDoc[] =>{
