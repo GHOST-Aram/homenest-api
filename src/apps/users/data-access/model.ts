@@ -2,34 +2,30 @@ import { compare, hash } from "bcrypt"
 import { HydratedDocument, Model, Schema, model } from "mongoose"
 
 export interface User{
-    first_name: string
-    last_name: string
+    fullName: string
+    role: string
     email: string
     password: string
-    isAdmin: boolean
+    isAdmin?: boolean
 }
 
 interface UserMethods{
     isValidPassword:(password: string) => Promise<boolean>
 }
 
-interface UserVirtuals{
-    name: string
-}
 
-export type UserModel = Model<User,{}, UserMethods, UserVirtuals>
+export type UserModel = Model<User,{}, UserMethods>
 
-export const userSchema = new Schema<User, UserModel, UserMethods,{}, UserVirtuals>({
-    first_name: {
+export const userSchema = new Schema<User, UserModel, UserMethods,{}>({
+    fullName: {
         type: String,
         minlength: 2,
         maxlength: 100,
         required: true
     },
-    last_name:{
+    role:{
         type: String,
-        minlength: 2,
-        maxlength: 100,
+        enum: ['tenant', 'landlord'],
         required: true
     },
     email: {
@@ -50,9 +46,6 @@ export const userSchema = new Schema<User, UserModel, UserMethods,{}, UserVirtua
     }
 })
 
-userSchema.virtual('name').get(function(){
-    return `${this.first_name} ${this.last_name}`
-})
 
 userSchema.method('isValidPassword', 
     async function(password: string): Promise<boolean>{
@@ -64,7 +57,7 @@ userSchema.pre('save', async function(){
     this.password = hashedPassword
 })
 
-export type HydratedUserDoc = HydratedDocument<User, UserMethods & UserVirtuals>
+export type HydratedUserDoc = HydratedDocument<User, UserMethods >
 
 export const User: UserModel = model<User, UserModel>(
     'User', userSchema)

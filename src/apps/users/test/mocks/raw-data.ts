@@ -1,29 +1,28 @@
 import { User } from '../../data-access/model'
 
 export const validUserData: User = {
-    first_name: 'John',
-    last_name: 'Doe',
+    fullName: 'John Doe',
+    role: 'landlord',
     email: 'johndoe@gmail.com',
     password: 'password',
-    isAdmin: false
 }
 
 export const userWithExistingEmail: User = {
-    first_name: 'Existing',
-    last_name: 'User',
+    fullName: 'Existing User',
+    role: 'tenant',
     email: 'existingEmail@gmail.com',
     password: 'password',
-    isAdmin:false
 }
 
 export const invalidUserData = {
     name: 'John doe',
     email: 'johndoe@gmail.com',
-    password: 'password'
+    password: 'password',
+    role: 'admin'
 }
 
 export const validPartialData = {
-    last_name: 'Doe',
+    fullName: 'Doe',
     email: 'johndoe@gmail.com',
     password: 'password'
 }
