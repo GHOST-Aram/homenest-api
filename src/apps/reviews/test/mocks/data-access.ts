@@ -125,7 +125,6 @@ export class DataAccess extends ReviewDataAccess{
             const exisitingReview = '64c9e4f2df7cc072af2ac9e4'
 
             if(id === exisitingReview){
-
                 const authoredByCUrrentUser =  new this.model({
                     authorId: '64c9e4f2df7cc072af2ac9e4',//Current user Id
                     propertyId: '64c9e4f2df7cc072af2ac9e8',
@@ -138,9 +137,8 @@ export class DataAccess extends ReviewDataAccess{
             
     })
 
-    public findByIdAndDelete = jest.fn(
-
-        async(id: string): Promise<HydratedReviewDoc | null> =>{
+    public findOneAndDelete = jest.fn(
+        async({ id, authorId }: SearchDoc): Promise<HydratedReviewDoc | null> =>{
 
             const idOfAvailableReview = '64c9e4f2df7cc072af2ac9e4'
 

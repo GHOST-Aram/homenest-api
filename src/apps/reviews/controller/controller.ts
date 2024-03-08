@@ -80,11 +80,12 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
         const reviewId = req.params.reviewId
         
         try {
-            const toBeDeleted = await this.dataAccess.findByReferenceId(reviewId)
+            const deletedReview = await this.dataAccess.findOneAndDelete({
+                id: reviewId, authorId: currentUser._id.toString()
+            })
 
-            if(toBeDeleted){
-                this.handleForbiddenRequest(toBeDeleted, currentUser, res)
-                this.handleDeletion(reviewId, res)
+            if(deletedReview){
+                this.respondWithDeletedResource(deletedReview.id, res)
             } else {
                 this.respondWithNotFound(res)
             }

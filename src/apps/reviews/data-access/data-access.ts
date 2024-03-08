@@ -23,12 +23,12 @@ export class ReviewDataAccess extends GenericDataAccess<ReviewModel, Review>{
         }, updatedDoc, { new: true })
     }
     
-    // public findOneAndDelete = async(searchDoc:SearchDoc ): Promise<HydratedRentalDoc | null> =>{
-    //     return await this.model.findOneAndDelete({
-    //         agentId:searchDoc.agentId,
-    //         _id: new Types.ObjectId(searchDoc.id)
-    //     })
-    // }
+    public findOneAndDelete = async({ id, authorId }: SearchDoc ): Promise<HydratedReviewDoc | null> =>{
+        return await this.model.findOneAndDelete({
+            authorId,
+            _id: new Types.ObjectId(id)
+        })
+    }
 }
 
 export type SearchDoc = {
