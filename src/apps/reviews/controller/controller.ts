@@ -16,7 +16,9 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
         if(currentUser){
             try {
                 const newDocument = await this.dataAccess.createNew({...inputData, 
-                    author: currentUser._id.toString() })
+                    authorId: currentUser._id.toString() })
+
+                    console.log("New document: ", newDocument)
                 this.respondWithCreatedResource(newDocument, res)
             } catch (error) {
                 next(error)
@@ -34,7 +36,7 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
         const paginator = this.paginate(req)
         try {
             const reviewDocs = await this.dataAccess
-                .findByProductId(productId, paginator)
+                .findByPropertyId(productId, paginator)
 
             this.respondWithFoundResource(reviewDocs, res)
         } catch (error) {
@@ -77,7 +79,7 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
 
     private handleForbiddenRequest = (
         toBeModified: HydratedReviewDoc, currentUser:any, res: Response) =>{
-        const authorIsCurrentUser = toBeModified.author.toString() === 
+        const authorIsCurrentUser = toBeModified.authorId.toString() === 
             currentUser._id.toString()
                 
         if(!authorIsCurrentUser)

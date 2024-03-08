@@ -1,8 +1,8 @@
 import { HydratedDocument, Model, ObjectId, Schema, model } from "mongoose";
 
 export interface Review{
-    author: ObjectId
-    product: ObjectId
+    authorId: ObjectId
+    propertyId: ObjectId
     content: string
     createdAt: Date
 }
@@ -10,12 +10,12 @@ export interface Review{
 export type ReviewModel = Model<Review>
 
 export const reviewSchema = new Schema<Review,ReviewModel>({
-    author: {
+    authorId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
     },
-    product: {
+    propertyId: {
         type: Schema.Types.ObjectId,
         ref: 'Product',
         required: true

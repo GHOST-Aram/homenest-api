@@ -4,12 +4,12 @@ import { HydratedReviewDoc, Review, ReviewModel } from "./model"
 
 export class ReviewDataAccess extends GenericDataAccess<ReviewModel, Review>{
 
-    public findByProductId = async(productId: string, paginator: Paginator
+    public findByPropertyId = async(propertyId: string, paginator: Paginator
         ) : Promise<HydratedReviewDoc[]> =>{
 
-            //Returns many reviews on a product with a specific id
+            //Returns many reviews on a property with a specific id
 
-        return await this.model.find({product: productId})
+        return await this.model.find({propertyId: propertyId})
             .skip(paginator.skipDocs)
             .limit(paginator.limit)
            

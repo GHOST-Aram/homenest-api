@@ -1,9 +1,8 @@
 import { validator } from "../../../z-library/validation/validator";
 
 export const newReviewInputValidators = [
-    validator.validateObjectId('author', { required: true}),
     validator.validateString('content', { required: true }),
-    validator.validateObjectId('product', { required: true })
+    validator.validateObjectId('propertyId', { required: true })
 ]
 
 export const patchInputValidators = [

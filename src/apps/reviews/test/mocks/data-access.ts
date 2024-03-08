@@ -53,8 +53,8 @@ export class DataAccess extends ReviewDataAccess{
                  * permitted to edit random reviews that they did not create.
                  */
                 const notAuthoredByCurrentUser = new this.model({
-                    author: '77c6e4f2df7cc072af2ac9e8',//Not current user
-                    product: '64c9e4f2df7cc072af2ac9e8',
+                    authorId: '77c6e4f2df7cc072af2ac9e8',//Not current user
+                    propertyId: '64c9e4f2df7cc072af2ac9e8',
                     content: 'Lorem ipsos'
                 })
                 
@@ -66,8 +66,8 @@ export class DataAccess extends ReviewDataAccess{
                  * modify the reviews that they created.
                  */
                 const authoredByCUrrentUser =  new this.model({
-                    author: '64c9e4f2df7cc072af2ac9e8',//Current user Id
-                    product: '64c9e4f2df7cc072af2ac9e8',
+                    authorId: '64c9e4f2df7cc072af2ac9e8',//Current user Id
+                    propertyId: '64c9e4f2df7cc072af2ac9e8',
                     content: 'Lorem ipsol'
                 })
 
@@ -83,14 +83,14 @@ export class DataAccess extends ReviewDataAccess{
         }
     )
     
-    public findByProductId = jest.fn(
+    public findByPropertyId = jest.fn(
 
-        async( productId: string, paginator: Paginator): Promise<HydratedReviewDoc[]> =>{
+        async( propertyId: string, paginator: Paginator): Promise<HydratedReviewDoc[]> =>{
 
             const idOfProductWithReviews = '64c9e4f2df7cc072af2ac9e4'
             let mockReviews: HydratedReviewDoc[] = []
 
-            if(productId === idOfProductWithReviews)
+            if(propertyId === idOfProductWithReviews)
                 mockReviews = this.createMockReviewsArray(paginator.limit)
 
             return mockReviews
@@ -128,8 +128,8 @@ export class DataAccess extends ReviewDataAccess{
             if(id === expectedCurrentUserId){
 
                 const authoredByCUrrentUser =  new this.model({
-                    author: '64c9e4f2df7cc072af2ac9e8',//Current user Id
-                    product: '64c9e4f2df7cc072af2ac9e8',
+                    authorId: '64c9e4f2df7cc072af2ac9e8',//Current user Id
+                    propertyId: '64c9e4f2df7cc072af2ac9e8',
                     content: 'Lorem ipsis'
                 })
 
