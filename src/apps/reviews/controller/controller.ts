@@ -44,11 +44,6 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
         }
     }
 
-    public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
-        //A Once a review is posted, it cannot be updated fully but it can be
-        //modifed partially
-        this.respondWithMethodNotAllowed(req, res)
-    }
 
     public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
 
