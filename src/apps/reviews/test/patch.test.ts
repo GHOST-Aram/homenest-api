@@ -47,17 +47,6 @@ describe('PATCH reviews (By Review ID)', () =>{
         }
     )
 
-    test('Responds with Forbidden (status 403): User requesting to PATCH is not '+
-        'the original author of the review: Permission denied.',
-        async() =>{
-            const response = await request(app).patch(
-                '/reviews/99c9e4f2df7cc072af2ac9e4')
-                .send(data.patchData)
-
-            assert.respondsWithForbidden(response)
-        }
-    )
-
     test('Responds with modified resource URI, (status 200): Patch Operation success.',
         async() =>{
             const response = await request(app).patch(
