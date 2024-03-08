@@ -9,6 +9,22 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
         super(dataAccess, microserviceName)
     }
 
+    public addNew = async(req: Request, res: Response, next: NextFunction) =>{
+        const inputData = req.body
+        const currentUser:any = req.user
+
+        if(currentUser){
+            try {
+                const newDocument = await this.dataAccess.createNew({...inputData, 
+                    author: currentUser._id.toString() })
+                this.respondWithCreatedResource(newDocument, res)
+            } catch (error) {
+                next(error)
+            }   
+        } else {
+            this.respondWithUnauthorised(res, 'Login to create a review.')
+        }
+    }
 
     //Get reviews for a specific products
     public getProductReviews = async(req: Request, res: Response, next: NextFunction) =>{
