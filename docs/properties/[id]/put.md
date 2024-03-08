@@ -1,6 +1,6 @@
 ## PUT `/properties/:id`
 
-This endpoint allows you to update the information of an exisiting property.
+This endpoint allows you to update the information of an exisiting property. A user can only update the documents they created and not those created by other users.
 
 ### Authorization
 Only authenticated users can access this endpoint. Visit the [authentication documentation](../authentication/auth.md) to get authentication guidelines.
