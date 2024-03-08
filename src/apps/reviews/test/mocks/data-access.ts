@@ -6,7 +6,7 @@ import {
 } from '../../data-access/model'
 import { Paginator } from '../../../../z-library/HTTP/http-response'
 import { reviewData } from './raw-data'
-import { ReviewDataAccess } from '../../data-access/data-access'
+import { ReviewDataAccess, SearchDoc } from '../../data-access/data-access'
 
 export class DataAccess extends ReviewDataAccess{
 
@@ -119,16 +119,15 @@ export class DataAccess extends ReviewDataAccess{
         }
     )
 
-    public findByIdAndUpdate = jest.fn(
+    public findOneAndUpdate = jest.fn(async({ id, authorId }: SearchDoc, updatedDoc: Object
+        ): Promise<HydratedReviewDoc | null> =>{
 
-        async(id: string): Promise<HydratedReviewDoc | null> =>{
+            const exisitingReview = '64c9e4f2df7cc072af2ac9e4'
 
-            const expectedCurrentUserId = '64c9e4f2df7cc072af2ac9e4'
-
-            if(id === expectedCurrentUserId){
+            if(id === exisitingReview){
 
                 const authoredByCUrrentUser =  new this.model({
-                    authorId: '64c9e4f2df7cc072af2ac9e8',//Current user Id
+                    authorId: '64c9e4f2df7cc072af2ac9e4',//Current user Id
                     propertyId: '64c9e4f2df7cc072af2ac9e8',
                     content: 'Lorem ipsis'
                 })

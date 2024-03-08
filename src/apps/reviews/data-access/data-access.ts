@@ -1,6 +1,7 @@
 import { Paginator } from "../../../z-library/HTTP/http-response"
 import { GenericDataAccess } from "../../../z-library/bases/generic-data-access"
 import { HydratedReviewDoc, Review, ReviewModel } from "./model"
+import { Types } from 'mongoose'
 
 export class ReviewDataAccess extends GenericDataAccess<ReviewModel, Review>{
 
@@ -11,7 +12,26 @@ export class ReviewDataAccess extends GenericDataAccess<ReviewModel, Review>{
 
         return await this.model.find({propertyId: propertyId})
             .skip(paginator.skipDocs)
-            .limit(paginator.limit)
-           
+            .limit(paginator.limit)     
     }
+
+    public findOneAndUpdate = async({ id, authorId }: SearchDoc, updatedDoc: Object
+        ): Promise<HydratedReviewDoc | null> =>{
+        return await this.model.findOneAndUpdate({
+            authorId,
+            _id: new Types.ObjectId(id)
+        }, updatedDoc, { new: true })
+    }
+    
+    // public findOneAndDelete = async(searchDoc:SearchDoc ): Promise<HydratedRentalDoc | null> =>{
+    //     return await this.model.findOneAndDelete({
+    //         agentId:searchDoc.agentId,
+    //         _id: new Types.ObjectId(searchDoc.id)
+    //     })
+    // }
+}
+
+export type SearchDoc = {
+    id: string
+    authorId: string
 }

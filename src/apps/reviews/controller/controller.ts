@@ -13,19 +13,15 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
         const inputData = req.body
         const currentUser:any = req.user
 
-        if(currentUser){
-            try {
-                const newDocument = await this.dataAccess.createNew({...inputData, 
-                    authorId: currentUser._id.toString() })
+        try {
+            const newDocument = await this.dataAccess.createNew({...inputData, 
+                authorId: currentUser._id.toString() })
 
-                    console.log("New document: ", newDocument)
-                this.respondWithCreatedResource(newDocument, res)
-            } catch (error) {
-                next(error)
-            }   
-        } else {
-            this.respondWithUnauthorised(res, 'Login to create a review.')
-        }
+                console.log("New document: ", newDocument)
+            this.respondWithCreatedResource(newDocument, res)
+        } catch (error) {
+            next(error)
+        }  
     }
 
     //Get reviews for a specific products
@@ -46,30 +42,25 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
 
 
     public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
-
+        const reviewId = req.params.reviewId
+        const content: string = req.body.content
         const currentUser:any = req.user
 
-        if(currentUser && req.isAuthenticated()){
-
-            const reviewId = req.params.reviewId
-            const content: string = req.body.content
-    
-            try {
-                const toBeModified = await this.dataAccess.findByReferenceId(reviewId)
-               
-                if(toBeModified === null)
-                    this.respondWithNotFound(res)
-                else {
-                    this.handleForbiddenRequest(toBeModified, currentUser, res)
-                }
-                //Allow users to modify only the reviews that they authored   
-                await this.handleUpdate(reviewId, { content }, res) 
-            } catch (error) {
-                next(error)
+        try {
+            const modifiedReview = await this.dataAccess.findOneAndUpdate({
+                id: reviewId, authorId: currentUser._id.toString()},
+                { content }
+            )
+            
+            if(modifiedReview){
+                this.respondWithModifiedResource(modifiedReview, res)
+            } else {
+                this.respondWithNotFound(res)
             }
-        } else {
-            this.respondWithUnauthorised(res)
+        } catch (error) {
+            next(error)
         }
+
     }
 
     private handleForbiddenRequest = (
@@ -83,39 +74,23 @@ export class ReviewsController extends GenericController<ReviewDataAccess>{
             return
     }
 
-    private handleUpdate = async(updateId: string, updateDoc:any, res: Response) =>{
-        const updatedReview = await this.dataAccess.findByIdAndUpdate(
-            updateId, updateDoc)
-
-        if(updatedReview !== null)
-            this.respondWithModifiedResource(updatedReview, res)    
-        else
-            this.respondWithNotFound(res)
-    }
 
     public deleteOne = async (req: Request, res: Response, next: NextFunction) =>{
-
         const currentUser:any = req.user
+        const reviewId = req.params.reviewId
+        
+        try {
+            const toBeDeleted = await this.dataAccess.findByReferenceId(reviewId)
 
-        if(currentUser && req.isAuthenticated() && currentUser.isAdmin){
-
-            const reviewId = req.params.reviewId
-            
-            try {
-                const toBeDeleted = await this.dataAccess.findByReferenceId(reviewId)
-
-                if(toBeDeleted){
-                    this.handleForbiddenRequest(toBeDeleted, currentUser, res)
-                    this.handleDeletion(reviewId, res)
-                } else {
-                    this.respondWithNotFound(res)
-                }
-            } catch (error) {
-                next(error)
-            }    
-        } else{
-            this.respondWithForbidden(res)
-        }
+            if(toBeDeleted){
+                this.handleForbiddenRequest(toBeDeleted, currentUser, res)
+                this.handleDeletion(reviewId, res)
+            } else {
+                this.respondWithNotFound(res)
+            }
+        } catch (error) {
+            next(error)
+        }    
     }
 
     private handleDeletion = async(reviewId: string, res: Response) =>{
