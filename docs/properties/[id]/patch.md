@@ -1,13 +1,13 @@
-## PUT `/properties/:id`
+## PATCH `/properties/:id`
 
-This endpoint allows you to update the information of an exisiting property.
+This endpoint allows you to apply partial updates to an exisiting property.
 
 ### Authorization
 Only authenticated users can access this endpoint. Visit the [authentication documentation](../authentication/auth.md) to get authentication guidelines.
 
 ### Request
 Provide the authoriation token as Bearer in the authorization header of the request object.
-Provide the id of the target document in the urls. The id must be a 24 character hexadecimal string.To Update a property, provide the following property details in the request body:
+Provide the id of the target document in the urls. The id must be a 24 character hexadecimal string.To apply partial modifications to a property, provide some or all of the following property details in the request body:
 
 ```typescript
     propertyName: string
@@ -32,7 +32,7 @@ Provide the id of the target document in the urls. The id must be a 24 character
 
 ### Response
 
-A successful response from this endpoint has the status code 200 or 201 depending on whether the update target was found or not. The response body contains a text `message` and an `item` representing the updated property document. The url of the updated item is available in the `Location` header of the response object.
+A successful response from this endpoint has the status code 200. The response body contains a text `message` and an `item` representing the updated property document. The url of the updated item is available in the `Location` header of the response object.
 
 
 
@@ -51,19 +51,10 @@ Example:
     "locationName": "Vihiga Road",
     "bedrooms": "3",
    "bathrooms": "2",
-    "description": "Lorem Ipsum teds",
-    "agentId": "65ea806dcb9951ff03ccb05d",
-    "squareFootage": "435",
-    "isAvailable": "true",
-    "isFurnished": "true",
-    "hasParkingSpace": "true",
-    "energySources": ["solar", "KPLC"],
-    "waterSources": ["Underground", "Nairobi Water"],
-    "petPolicy": "Restrited care"
 })
     
     const response = await fetch('http://localhost:8000/properties/65ea8bcbfc296f560cac7232', {
-        method: 'PUT',
+        method: 'PATCH',
         body,
         headers:{
             'Content-Type': 'application/json', 
