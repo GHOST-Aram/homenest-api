@@ -7,7 +7,7 @@ export const rentalData = {
     propertyName: 'Monalisa',
     bathrooms: 3,
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
-    agentId: '64c9e4f2df7cc072af2ac9e4',
+    landlord: '64c9e4f2df7cc072af2ac9e4',
     squareFootage: 493
 }
 
@@ -15,7 +15,7 @@ export const rentalProperties = [
     'backgroundImageUrl', 'rentPerMonth', 'rentPerYear',
     'locationName', 'bedrooms', 'propertyName',
     'bathrooms',
-    'description', 'agentId', 'squareFootage',
+    'description', 'landlord', 'squareFootage',
 ]
 
 export const badRentalData = {

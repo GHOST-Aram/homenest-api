@@ -2,14 +2,14 @@ import { validator } from "../../../z-library/validation/validator"
 
 
 const required = { required: true }
-const notRequired = { required: false }
+const optional = { required: false }
 
 const rentalPostValidator = [
     validator.validateName('propertyName', required),
     validator.validateNumber('bedrooms', required),
     validator.validateUrl('backgroundImageUrl', required),
     validator.validateString('description', required),
-    validator.validateObjectId('agentId', required),
+    validator.validateObjectId('landlord', required),
     validator.validateName('locationName', required),
     validator.validateNumber('rentPerMonth', required),
     validator.validateNumber('rentPerYear', required),
@@ -18,17 +18,17 @@ const rentalPostValidator = [
 ]
 
 const optionalValidator = [
-    validator.validateName('propertyName', notRequired),
-    validator.validateName('locationName', notRequired),
-    validator.validateNumber('bedrooms', notRequired),
-    validator.validateNumber('price', notRequired),
-    validator.validateUrl('backgroundImageUrl', notRequired),
-    validator.validateString('description', notRequired),
-    validator.validateObjectId('agentId', notRequired),
-    validator.validateNumber('rentPerMonth', notRequired),
-    validator.validateNumber('rentPerYear', notRequired),
-    validator.validateNumber('bathrooms', notRequired),
-    validator.validateNumber('squareFootage', notRequired),
+    validator.validateName('propertyName', optional),
+    validator.validateName('locationName', optional),
+    validator.validateNumber('bedrooms', optional),
+    validator.validateNumber('price', optional),
+    validator.validateUrl('backgroundImageUrl', optional),
+    validator.validateString('description', optional),
+    validator.validateObjectId('landlord', optional),
+    validator.validateNumber('rentPerMonth', optional),
+    validator.validateNumber('rentPerYear', optional),
+    validator.validateNumber('bathrooms', optional),
+    validator.validateNumber('squareFootage', optional),
 ]
 
 export { rentalPostValidator, optionalValidator }

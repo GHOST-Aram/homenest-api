@@ -1,4 +1,4 @@
-import { HydratedDocument, Model, Schema, model } from "mongoose";
+import { HydratedDocument, Model, ObjectId, Schema, model } from "mongoose";
 
 export interface Rental{
     propertyName: string
@@ -11,7 +11,7 @@ export interface Rental{
     bedrooms: number
     bathrooms: number
     description: string
-    agentId: string
+    landlord: ObjectId
     squareFootage: number
     isAvailable: boolean
     isFurnished: boolean
@@ -19,6 +19,7 @@ export interface Rental{
     energySources: string[]
     waterSources: string[]
     petPolicy: string
+    imageUrls: string[]
 }
 
 export type RentalModel = Model<Rental>
@@ -68,8 +69,9 @@ export const rentalSchema = new Schema<Rental, RentalModel>({
         required: true
     },
 
-    agentId: {
-        type: String,
+    landlord: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
 
