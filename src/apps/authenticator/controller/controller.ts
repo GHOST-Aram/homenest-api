@@ -33,6 +33,8 @@ export class AuthController{
                     } else {
                         const token = auth.issueToken({
                             email: user.email,
+                            name: user.fullName,
+                            role: user.role,
                             id: user._id ? user._id.toString() : user.id,
                         }, secretOrkey )
         

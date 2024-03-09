@@ -10,7 +10,7 @@ export class Authenticator{
 
     public issueToken = (user: User, secretOrkey: string): string =>{
         return jwt.sign({
-            email: user.email,
+            ...user
         }, 
         secretOrkey, 
         
@@ -23,7 +23,9 @@ export class Authenticator{
 
 interface User{
     id: string
-    email: string
+    email: string,
+    name: string,
+    role: string
 }
 
 export const auth = new Authenticator
