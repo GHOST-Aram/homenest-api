@@ -19,7 +19,7 @@ export interface Rental{
     energySources: string[]
     waterSources: string[]
     petPolicy: string
-    imageUrls: string[]
+    images: string[]
 }
 
 export type RentalModel = Model<Rental>
@@ -108,8 +108,9 @@ export const rentalSchema = new Schema<Rental, RentalModel>({
     petPolicy: {
         type: String,
         default: 'Allowed with restricted care.'
-    }
+    },
 
+    images: [String]
 
 
 })
