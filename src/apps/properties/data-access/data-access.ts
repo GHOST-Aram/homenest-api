@@ -11,13 +11,13 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
 
     public findOneAndUpdate = async(searchDoc:SearchDoc, updatedDoc: Object): Promise<HydratedRentalDoc | null> =>{
         return await this.model.findOneAndUpdate({
-            agentId:searchDoc.agentId,
+            landlord:searchDoc.landlord,
             _id: new Types.ObjectId(searchDoc.id)
         }, updatedDoc, { new: true })
     }
     public findOneAndDelete = async(searchDoc:SearchDoc ): Promise<HydratedRentalDoc | null> =>{
         return await this.model.findOneAndDelete({
-            agentId:searchDoc.agentId,
+            landlord:searchDoc.landlord,
             _id: new Types.ObjectId(searchDoc.id)
         })
     }
@@ -25,5 +25,5 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
 
 export type SearchDoc = {
     id: string,
-    agentId: string
+    landlord: string
 }

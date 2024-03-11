@@ -53,7 +53,6 @@ export class HttpResponse{
     public respondWithModifiedResource = (item: HydratedDocument<Object>, res: Response) =>{
         res.location(`/${this.microserviceName}/${item.id}`)
         res.status(200).json({ message: 'Modified', item } )
-        console.log('modifed item: ',item)
     } 
 
     public respondWithUpdatedResource = (resource: HydratedDocument<Object>, res: Response) =>{

@@ -13,7 +13,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
         try {
             const newDocument = await this.dataAccess.createNew({
-                ...inputData, agentId: currentUser._id.toString()
+                ...inputData, landlord: currentUser._id.toString()
             })
             
             this.respondWithCreatedResource(newDocument, res)
@@ -29,12 +29,12 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
         try {
             const updatedDoc = await this.dataAccess.findOneAndUpdate({id: referenceId, 
-                agentId:currentUser._id.toString() }, 
+                landlord:currentUser._id.toString() }, 
 
                 {
                     ...updateDoc, 
-                    // Override the value of agentId - Ensure it's always curentUser's Id
-                    agentId:currentUser._id.toString()
+                    // Override the value of landlord - Ensure it's always curentUser's Id
+                    landlord:currentUser._id.toString()
             })
 
             if(updatedDoc){
@@ -55,12 +55,12 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
         try {
             const modifiedDoc = await this.dataAccess.findOneAndUpdate(
-                {id: referenceId, agentId: currentUser._id.toString()}, 
+                {id: referenceId, landlord: currentUser._id.toString()}, 
                 { 
                     ...updateDoc, 
-                    //Override the value of agentId with currentUser id
+                    //Override the value of landlord with currentUser id
                     // incase user attempts to change it.
-                    agentId: updateDoc.agentId? currentUser._id.toString(): undefined 
+                    landlord: updateDoc.landlord? currentUser._id.toString(): undefined 
                 })
 
             if(modifiedDoc){
@@ -81,7 +81,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
             const deletedDoc = await this.dataAccess.findOneAndDelete(
                 {
                     id: referenceId, 
-                    agentId: currentUser._id.toString()
+                    landlord: currentUser._id.toString()
                 }
             )
 
