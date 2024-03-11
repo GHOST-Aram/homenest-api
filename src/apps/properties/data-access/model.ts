@@ -110,7 +110,10 @@ export const rentalSchema = new Schema<Rental, RentalModel>({
         default: 'Allowed with restricted care.'
     },
 
-    images: [String]
+    images: [{
+        url: String,
+        alt: String
+    }]
 
 
 })
