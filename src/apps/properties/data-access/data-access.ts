@@ -9,6 +9,10 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
         super(model)
     }
 
+    public findByLandlordId = async(landlordId: string): Promise<HydratedRentalDoc[]> =>{
+        return await this.model.find({ landlord: landlordId })
+    }
+
     public findOneAndUpdate = async(searchDoc:SearchDoc, updatedDoc: Object): Promise<HydratedRentalDoc | null> =>{
         return await this.model.findOneAndUpdate({
             landlord:searchDoc.landlord,

@@ -20,6 +20,9 @@ export class RentalDataAccess implements Accessible{
         return new this.model(data)
     })
 
+    public findByLandlordId = jest.fn(async(landlordId: string): Promise<HydratedRentalDoc[]> =>{
+        return createFakeRentalDocs(2)
+    })
     public findByReferenceId = jest.fn(async(refId: string): Promise<HydratedRentalDoc | null> =>{
         return refId === AVAILABLE_ID ? new this.model(rentalData) : null
     })

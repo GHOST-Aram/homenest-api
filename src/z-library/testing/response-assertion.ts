@@ -65,6 +65,12 @@ export class ResponseAssertion{
             expect(Array.isArray(resource)).toBeTruthy()
             expect(resource.length).toEqual(limit)
     }
+    public respondsWithItemsArray = ( response: Response) =>{
+            const resource = response.body
+
+            expect(resource[0]).toHaveProperty('_id')
+            expect(Array.isArray(resource)).toBeTruthy()
+    }
 
     public respondsWithModifedResource = (response: Response) =>{
         expect(response.body.message).toMatch(/modified/i)

@@ -24,6 +24,12 @@ export const routesWrapper = (controller: RentalsController, authenticator: Auth
 
     router.get('/', controller.getMany)
 
+    router.get('/landlords/:id', 
+        validator.validateReferenceId('id', { required: true}),
+        validator.handleValidationErrors,
+        controller.getByLandlordId
+    )
+
     router.put('/', controller.respondWithMethodNotAllowed)
     router.put('/:id', 
         authenticator.authenticate(),

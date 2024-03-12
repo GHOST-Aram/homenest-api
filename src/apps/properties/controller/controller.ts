@@ -22,6 +22,17 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         }   
     }
 
+    public getByLandlordId = async(req: Request, res: Response, next: NextFunction) =>{
+        const landlordId = req.params.id
+
+        try {
+            const rentals = await this.dataAccess.findByLandlordId(landlordId)
+            this.respondWithFoundResource(rentals, res)
+        } catch (error) {
+            next(error)
+        }
+    }
+
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
         const referenceId = req.params.id
         const updateDoc = req.body
