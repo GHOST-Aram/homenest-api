@@ -7,9 +7,14 @@ Available Operations:
 Retrieve paginated lists of Properties in the system.
 - [Visit the documentation](./get.md)
 
+## GET Multiple properties by landlord Id
+Retrieve a list of all properties created by a specific landlord.
+- [Visit the documentation](./landlord/[id]/get.md)
+
 ## GET One property
 Retrieve information about a specific property by id.
 - [Visit the documentation](./[id]/get.md)
+
 
 ## POST property
 Create a new property.

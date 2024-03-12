@@ -35,7 +35,7 @@ A successful response from this endpoint has a status code of 200. The list of p
     bedrooms: number
     bathrooms: number
     description: string
-    agentId: string
+    landlord: string
     squareFootage: number
     isAvailable: boolean
     isFurnished: boolean
@@ -44,6 +44,7 @@ A successful response from this endpoint has a status code of 200. The list of p
     waterSources: string[]
     petPolicy: string
     createdAt: string
+    images:[]
     _id: ObjectId
   
 ```
@@ -78,8 +79,9 @@ An exapmle of expected output
         "bathrooms": 2,
         "backgroundImageUrl": "https://unsplash.com/img123",
         "description": "Lorem Ipsum teds",
-        "agentId": "65ea806dcb9951ff03ccb05d",
+        "landlord": "65ea806dcb9951ff03ccb05d",
         "squareFootage": 435,
+        "images":[],
         "isAvailable": true,
         "isFurnished": true,
         "hasParkingSpace": true,

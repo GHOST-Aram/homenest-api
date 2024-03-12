@@ -19,7 +19,7 @@ To create a new property, provide the following property details in the request 
     bedrooms: number
     bathrooms: number
     description: string
-    agentId: string
+    landlord: string
     squareFootage: number
     isAvailable: boolean
     isFurnished: boolean
@@ -53,6 +53,7 @@ Example:
     "description": "Lorem Ipsum teds",
     "agentId": "65ea806dcb9951ff03ccb05d",
     "squareFootage": "435",
+    "images":[],
     "isAvailable": "true",
     "isFurnished": "true",
     "hasParkingSpace": "true",
@@ -94,6 +95,7 @@ Example of an expected response body
         "description": "Lorem Ipsum teds",
         "agentId": "65ea806dcb9951ff03ccb05d",
         "squareFootage": 435,
+        "images":[],
         "isAvailable": true,
         "isFurnished": true,
         "hasParkingSpace": true,
