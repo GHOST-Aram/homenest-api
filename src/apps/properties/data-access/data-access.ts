@@ -1,3 +1,4 @@
+import { Paginator } from "../../../z-library/HTTP/http-response";
 import { GenericDataAccess } from "../../../z-library/bases/generic-data-access";
 import { HydratedRentalDoc, Rental, RentalModel } from "./model";
 import { Types } from  'mongoose'
@@ -27,12 +28,19 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
         })
     }
 
-    public findBySearchDocument = async(rentLimits: RentLimits | false, searchDoc: Object): Promise<HydratedRentalDoc[]> =>{
+    public findBySearchDocument = async(
+        paginator: Paginator,
+        { rentLimits, searchDoc }:{ rentLimits: RentLimits | false, searchDoc: Object }
+    ): Promise<HydratedRentalDoc[]> =>{
         if(rentLimits)
             return await this.model.find( {
-                rentPerMonth: { $lt: rentLimits.rentMax, $gt: rentLimits.rentMin }, ...searchDoc })
+                rentPerMonth: { $lt: rentLimits.rentMax, $gt: rentLimits.rentMin }
+                , ...searchDoc 
+            }).skip(paginator.skipDocs).limit(paginator.limit)
         else
             return await this.model.find(searchDoc)
+                .skip(paginator.skipDocs)
+                .limit(paginator.limit)
     }
 }
 

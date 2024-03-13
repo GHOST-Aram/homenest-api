@@ -40,11 +40,13 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         const query = req.query
 
         const rentLimits = this.getRentLimitsFromQuery(query)
-        const searchDocument = this.createSearchDocument(query)
+        const searchDoc = this.createSearchDocument(query)
         
         try {
             const docuements = await this.dataAccess.findBySearchDocument(
-                rentLimits, searchDocument)
+                paginator, {rentLimits, searchDoc}
+            )
+
             this.respondWithFoundResource(docuements, res)
         } catch (error) {
             next(error)
