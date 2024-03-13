@@ -19,12 +19,28 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
             _id: new Types.ObjectId(searchDoc.id)
         }, updatedDoc, { new: true })
     }
+
     public findOneAndDelete = async(searchDoc:SearchDoc ): Promise<HydratedRentalDoc | null> =>{
         return await this.model.findOneAndDelete({
             landlord:searchDoc.landlord,
             _id: new Types.ObjectId(searchDoc.id)
         })
     }
+
+    public findBySearchDocument = async(rentLimits: RentLimits | false, searchDoc: Object): Promise<HydratedRentalDoc[]> =>{
+        if(rentLimits)
+            return await this.model.find( {
+                rentPerMonth: { $lt: rentLimits.rentMax, $gt: rentLimits.rentMin }},
+                searchDoc
+            )
+        else
+            return await this.model.find(searchDoc)
+    }
+}
+
+interface RentLimits{
+    rentMin: number
+    rentMax: number
 }
 
 export type SearchDoc = {
