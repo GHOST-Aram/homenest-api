@@ -15,6 +15,8 @@ const rentalPostValidator = [
     validator.validateNumber('rentPerYear', required),
     validator.validateNumber('bathrooms', required),
     validator.validateNumber('squareFootage', required),
+    validator.validateString('cityOrTown', required),
+    validator.validateString('estate', required),
 ]
 
 const optionalValidator = [
@@ -29,6 +31,8 @@ const optionalValidator = [
     validator.validateNumber('rentPerYear', optional),
     validator.validateNumber('bathrooms', optional),
     validator.validateNumber('squareFootage', optional),
+    validator.validateString('cityOrTown', optional),
+    validator.validateString('estate', optional),
 ]
 
 export { rentalPostValidator, optionalValidator }

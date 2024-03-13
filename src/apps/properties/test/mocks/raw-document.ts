@@ -8,13 +8,15 @@ export const rentalData = {
     bathrooms: 3,
     description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
     landlord: '64c9e4f2df7cc072af2ac9e4',
-    squareFootage: 493
+    squareFootage: 493,
+    cityOrTown: 'Nairobi',
+    estate: 'Kerington'
 }
 
 export const rentalProperties = [
     'backgroundImageUrl', 'rentPerMonth', 'rentPerYear',
     'locationName', 'bedrooms', 'propertyName',
-    'bathrooms',
+    'bathrooms', 'cityOrTown', 'estate',
     'description', 'landlord', 'squareFootage',
 ]
 

@@ -20,6 +20,8 @@ export interface Rental{
     waterSources: string[]
     petPolicy: string
     images: string[]
+    cityOrTown: string
+    estate: string
 }
 
 export type RentalModel = Model<Rental>
@@ -110,6 +112,16 @@ export const rentalSchema = new Schema<Rental, RentalModel>({
         default: 'Allowed with restricted care.'
     },
 
+    cityOrTown:{
+        type: String,
+        required: true
+    },
+
+    estate: {
+        type: String,
+        required: true
+    },
+    
     images: [{
         url: String,
         alt: String
