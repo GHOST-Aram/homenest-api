@@ -135,3 +135,9 @@ export type HydratedRentalDoc = HydratedDocument<Rental>
 export const Rental: RentalModel =  model<Rental, RentalModel>(
     'Rental', rentalSchema
 )
+
+export  const searchablePaths = [
+    'rentPerMonth', 'isAvailable', 'hasParkingSpace',
+    'locationName', 'bedrooms', 'propertyName', 'isFurnished',
+    'bathrooms', 'cityOrTown', 'estate', 'propertyType'
+]

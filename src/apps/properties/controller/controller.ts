@@ -3,6 +3,7 @@ import { GenericController } from "../../../z-library/bases/generic-controller";
 import { Paginator } from "../../../z-library/HTTP/http-response";
 import { Request, Response, NextFunction } from "express";
 import { ParsedQs } from "qs";
+import { searchablePaths } from "../data-access/model";
 
 export class RentalsController extends GenericController<RentalDataAccess>{
     constructor (dataAccess: RentalDataAccess, microserviceName: string){
@@ -54,16 +55,16 @@ export class RentalsController extends GenericController<RentalDataAccess>{
     }
 
     private createSearchDocument = (query:ParsedQs) =>{
-        const keys = this.removeUnwantedPaths(query)
+        const keys = this.removeUnSearchablePaths(query)
         const searchDoc = this.createObject(keys, query)
 
         return searchDoc
     }
 
-    private removeUnwantedPaths = (query: ParsedQs):string[] =>{
-        return Object.keys(query).filter(key => key !== 'page' && key!== 'limit' && 
-            key!=='rentMin' && key!=='rentMax' 
-            && Boolean(query[key]) === true)
+    private removeUnSearchablePaths = (query: ParsedQs):string[] =>{
+        return Object.keys(query).filter(key => (
+            searchablePaths.includes(key) && query[key]
+        ))
     }
 
     private createObject = (keys:string[], query: ParsedQs) =>{
