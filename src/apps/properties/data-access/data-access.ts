@@ -30,7 +30,10 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
 
     public findBySearchDocument = async(
         paginator: Paginator,
-        { rentLimits, searchDoc }:{ rentLimits: RentLimits | false, searchDoc: Object }
+        { 
+            rentLimits, 
+            searchDoc 
+        }:{ rentLimits: RentLimits | false, searchDoc: Object }
     ): Promise<HydratedRentalDoc[]> =>{
         if(rentLimits)
             return await this.model.find( {
@@ -44,7 +47,7 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
     }
 }
 
-interface RentLimits{
+export interface RentLimits{
     rentMin: number
     rentMax: number
 }

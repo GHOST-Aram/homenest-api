@@ -5,6 +5,7 @@ import { jest } from "@jest/globals";
 import { Accessible } from "../../../../z-library/bases/accessible";
 import { rentalData } from "./raw-document";
 import { SearchDoc } from "../../data-access/data-access";
+import { RentLimits } from "../../data-access/data-access";
 
 const AVAILABLE_ID = '64c9e4f2df7cc072af2ac9e4'
 
@@ -45,6 +46,18 @@ export class RentalDataAccess implements Accessible{
     public findOneAndDelete = jest.fn(async(searchDoc: SearchDoc): Promise<HydratedRentalDoc | null> =>{
         return searchDoc.id === AVAILABLE_ID ? new this.model(rentalData) : null
     })
+
+    public findBySearchDocument = jest.fn(async(
+        paginator: Paginator,
+        { 
+            rentLimits, 
+            searchDoc 
+        }:{ rentLimits: RentLimits | false, searchDoc: Object }
+    ): Promise<HydratedRentalDoc[]> =>{
+
+       return createFakeRentalDocs(paginator.limit)
+    }
+)
 }
 
 const createFakeRentalDocs = (limit: number): HydratedRentalDoc[] =>{
