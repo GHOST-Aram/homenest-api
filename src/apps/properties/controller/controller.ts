@@ -41,9 +41,6 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
         const rentLimits = this.getRentLimitsFromQuery(query)
         const searchDocument = this.createSearchDocument(query)
-
-        console.log(searchDocument)
-
         
         try {
             const docuements = await this.dataAccess.findBySearchDocument(
