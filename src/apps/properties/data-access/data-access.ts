@@ -37,7 +37,7 @@ export class RentalDataAccess extends GenericDataAccess<RentalModel, Rental> {
     ): Promise<HydratedRentalDoc[]> =>{
         if(rentLimits)
             return await this.model.find( {
-                rentPerMonth: { $lt: rentLimits.rentMax, $gt: rentLimits.rentMin }
+                rentPerMonth: { $lte: rentLimits.rentMax, $gte: rentLimits.rentMin }
                 , ...searchDoc 
             }).skip(paginator.skipDocs).limit(paginator.limit)
         else
