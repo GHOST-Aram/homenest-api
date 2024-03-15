@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { RentalsController } from "../controller/controller";
-import { optionalValidator, rentalPostValidator } from "./input-validation";
+import { 
+    optionalValidator, 
+    searchQueryValidators, 
+    rentalPostValidator 
+} from "./input-validation";
 import { validator } from "../../../z-library/validation/validator";
 import { Authenticatable } from '../../../z-library/auth/auth'
 
@@ -22,7 +26,11 @@ export const routesWrapper = (controller: RentalsController, authenticator: Auth
         controller.getOne
     )
 
-    router.get('/', controller.getMany)
+    router.get('/', 
+        searchQueryValidators,
+        validator.handleValidationErrors,
+        controller.getMany
+    )
 
     router.get('/landlords/:id', 
         validator.validateReferenceId('id', { required: true}),

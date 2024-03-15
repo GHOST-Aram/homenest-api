@@ -34,5 +34,24 @@ const optionalValidator = [
     validator.validateString('cityOrTown', optional),
     validator.validateString('estate', optional),
 ]
+ 
+const searchQueryValidators = [
+    validator.validateNumberQuery('page'),
+    validator.validateNumberQuery('limit'),
+    validator.validateNumberQuery('rentMin'),
+    validator.validateNumberQuery('rentMax'),
+    validator.validateNumberQuery('bedrooms'),
+    validator.validateNumberQuery('bathrooms'), 
+    validator.validateNumberQuery('squareFootage'), 
+    validator.validateBooleanQuery('isAvailable'),
+    validator.validateBooleanQuery('hasParkingSpace'),
+    validator.validateBooleanQuery('isFurnished'),
+    validator.validateStringQuery('locationName'),
+    validator.validateStringQuery('propertyName'),
+    validator.validateStringQuery('cityOrTown'),
+    validator.validateStringQuery('estate'),
+    validator.validateStringQuery('propertyType')
 
-export { rentalPostValidator, optionalValidator }
+]
+
+export { rentalPostValidator, optionalValidator, searchQueryValidators }

@@ -1,5 +1,5 @@
 import { 
-    ValidationChain, body, param, validationResult 
+    ValidationChain, body, param, query, validationResult 
 } from "express-validator"
 import { isValidObjectId } from "mongoose"
 import { formatter } from "../formatting/formatter"
@@ -149,6 +149,18 @@ export class Validator {
         } else{
             return validationChain().optional()
         }
+    }
+
+    public validateBooleanQuery = (field: string) =>{
+        return query(field).isBoolean().trim().escape().optional()
+    }
+
+    public validateNumberQuery = (field: string) =>{
+        return query(field).isNumeric().trim().escape().optional()
+    }
+
+    public validateStringQuery = (field: string) =>{
+        return query(field).isString().trim().escape().optional()
     }
 
     public validateString(fieldName: string, { required }: ValidationOption){
