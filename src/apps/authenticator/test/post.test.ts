@@ -34,13 +34,12 @@ describe('Auth Post route', () => {
     })
 
 
-    test('Responds with access token, status 200: Sign In sucess', async() =>{
+    test('Responds with access token, status 201: Sign In sucess', async() =>{
         const response = await request(app).post('/auth').send({
             email: 'correctEmail@gmail.com',
             password: 'CorrectPassword2030'
         })
 
-        assert.respondsWithConflict(response)
         assert.respondsWithToken(response)
     })
 })
