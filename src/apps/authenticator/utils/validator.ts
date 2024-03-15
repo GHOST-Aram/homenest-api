@@ -8,9 +8,7 @@ class AuthValidator extends Validator{
     }
 
     public validatePassword = (field: string) =>{
-        return body(field).trim()
-            .notEmpty().withMessage('Password is required')
-            .isAlphanumeric().withMessage('Password must be alphanumerice')
+        return body(field).notEmpty().withMessage('Password is required')
             .isLength({ min: 8, max: 24 }).withMessage('Password must be 8 - 24 chars long')
     }
 }
