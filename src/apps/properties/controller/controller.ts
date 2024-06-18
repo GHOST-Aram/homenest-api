@@ -1,4 +1,4 @@
-import { RentalDataAccess } from "../data-access/data-access";
+import { RentLimits, RentalDataAccess } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
 import { Paginator } from "../../../z-library/HTTP/http-response";
 import { Request, Response, NextFunction } from "express";
@@ -54,7 +54,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         }
     }
 
-    private getRentLimitsFromQuery=(query: ParsedQs) =>{
+    private getRentLimitsFromQuery=(query: ParsedQs): RentLimits | false =>{
             const rentMin = Number(query.rentMin)
             const rentMax = Number(query.rentMax)
 
@@ -66,7 +66,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         return false
     }
 
-    private createSearchDocument = (query:ParsedQs) =>{
+    private createSearchDocument = (query:ParsedQs): {} =>{
         const keys = this.removeUnSearchablePaths(query)
         const searchDoc = this.createObject(keys, query)
 
@@ -129,9 +129,9 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                 {id: referenceId, landlord: currentUser._id.toString()}, 
                 { 
                     ...updateDoc, 
-                    //Override the value of landlord with currentUser id
+                    //Override the value of landlord Id with currentUser id
                     // incase user attempts to change it.
-                    landlord: updateDoc.landlord? currentUser._id.toString(): undefined 
+                    landlord: currentUser._id.toString()
                 })
 
             if(modifiedDoc){
