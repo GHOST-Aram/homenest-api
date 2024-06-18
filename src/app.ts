@@ -6,9 +6,13 @@ import { usersRouter } from "./apps/users/app";
 import { propertyRoutes } from "./apps/properties/app";
 import { messagesRoutes } from "./apps/messenger/app";
 import { reviewsRoutes } from "./apps/reviews/app";
+import { Response, Request } from "express";
 import { routes as viewingScheduleRoutes } from "./apps/viewing-scheduler/app";
 import { routes as applicationsRoutes } from "./apps/rental-applications/app";
 
+app.get('/', (req: Request, res: Response) =>{
+    res.status(200).json({ message: "Welcome to Homenest API" })
+})
 app.use('/auth', authRoutes)
 app.use('/gallery', galleryRoutes)
 app.use('/users', usersRouter)
