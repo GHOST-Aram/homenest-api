@@ -94,6 +94,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
 
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
+        
         const referenceId = req.params.id
         const updateDoc = req.body
         const currentUser:any = req.user
@@ -120,6 +121,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
     }
 
     public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
+
         const referenceId = req.params.id
         const updateDoc = req.body
         const currentUser:any = req.user
@@ -146,8 +148,10 @@ export class RentalsController extends GenericController<RentalDataAccess>{
     }
 
     public deleteOne = async(req: Request, res: Response, next: NextFunction) => {
+        
         const referenceId = req.params.id
         const currentUser: any = req.user
+
         try {
             const deletedDoc = await this.dataAccess.findOneAndDelete(
                 {
