@@ -54,26 +54,6 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         }
     }
 
-    private createSearchDocument = (query:ParsedQs) =>{
-        const keys = this.removeUnSearchablePaths(query)
-        const searchDoc = this.createObject(keys, query)
-
-        return searchDoc
-    }
-
-    private removeUnSearchablePaths = (query: ParsedQs):string[] =>{
-        return Object.keys(query).filter(key => (
-            searchablePaths.includes(key) && query[key]
-        ))
-    }
-
-    private createObject = (keys:string[], query: ParsedQs) =>{
-        let searchDoc = {}
-        keys.forEach(key =>{ searchDoc = { ...searchDoc, [key]: query[key] }})
-
-        return searchDoc
-    }
-
     private getRentLimitsFromQuery=(query: ParsedQs) =>{
             const rentMin = Number(query.rentMin)
             const rentMax = Number(query.rentMax)
@@ -85,6 +65,33 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                 return { rentMin: rentMax, rentMax: rentMin }
         return false
     }
+
+    private createSearchDocument = (query:ParsedQs) =>{
+        const keys = this.removeUnSearchablePaths(query)
+        const searchDoc = this.createObject(keys, query)
+
+        return searchDoc
+    }
+
+    private removeUnSearchablePaths = (query: ParsedQs):string[] =>{
+
+        return Object.keys(query).filter(key => (
+            // return if the the list of searchable paths includes the current key
+            // && the value of the corresponding key in the search query is truthy
+            searchablePaths.includes(key) && query[key] 
+        ))
+    }
+
+    private createObject = (keys:string[], query: ParsedQs) =>{
+        let searchDoc = {}
+        keys.forEach(key =>{ 
+            searchDoc = { ...searchDoc, [key]: query[key] }
+        }
+    )
+
+        return searchDoc
+    }
+
 
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
         const referenceId = req.params.id
