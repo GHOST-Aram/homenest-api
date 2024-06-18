@@ -37,6 +37,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
     }
 
     public getMany = async(req: Request, res: Response, next: NextFunction) =>{
+
         const paginator: Paginator = this.paginate(req) 
         const query = req.query
 
@@ -45,7 +46,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         
         try {
             const documents = await this.dataAccess.findBySearchDocument(
-                paginator, {rentLimits, searchDoc}
+                paginator, { rentLimits, searchDoc }
             )
 
             this.respondWithFoundResource(documents, res)
@@ -94,7 +95,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
 
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
-        
+
         const referenceId = req.params.id
         const updateDoc = req.body
         const currentUser:any = req.user
@@ -125,15 +126,16 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         const referenceId = req.params.id
         const updateDoc = req.body
         const currentUser:any = req.user
+        const currentUserId: string = currentUser._id.toString()
 
         try {
             const modifiedDoc = await this.dataAccess.findOneAndUpdate(
-                {id: referenceId, landlord: currentUser._id.toString()}, 
+                {id: referenceId, landlord: currentUserId}, 
                 { 
                     ...updateDoc, 
                     //Override the value of landlord Id with currentUser id
                     // incase user attempts to change it.
-                    landlord: currentUser._id.toString()
+                    landlord: currentUserId
                 })
 
             if(modifiedDoc){
@@ -154,6 +156,9 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
         try {
             const deletedDoc = await this.dataAccess.findOneAndDelete(
+                // Delete a document that matches the specified ID
+                // The landlord Id of the document must also match the current user's Id. Users
+                // are only allowed to delete the documents created by themselves.
                 {
                     id: referenceId, 
                     landlord: currentUser._id.toString()
