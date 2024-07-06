@@ -3,8 +3,7 @@ import { HydratedDocument, Model, ObjectId, Schema, model } from "mongoose";
 export interface Rental{
     propertyName: string
     propertyType: string
-
-    backgroundImageUrl: string
+    backgroundImage?:Buffer
     rentPerMonth: number
     rentPerYear: number,
     locationName: string
@@ -51,6 +50,12 @@ export const rentalSchema = new Schema<Rental, RentalModel>({
         required: true
     },
 
+    backgroundImage: {
+        name: String,
+        data: Buffer,
+        contentType: String,
+    },
+
     bedrooms: {
         type: Number,
         required: true
@@ -59,11 +64,6 @@ export const rentalSchema = new Schema<Rental, RentalModel>({
     bathrooms: {
         type: Number,
         require: true
-    },
-
-    backgroundImageUrl:{
-        type: String,
-        required: true
     },
 
     description: { 

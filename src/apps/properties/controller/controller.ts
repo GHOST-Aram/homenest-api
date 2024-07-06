@@ -3,7 +3,7 @@ import { GenericController } from "../../../z-library/bases/generic-controller";
 import { Paginator } from "../../../z-library/HTTP/http-response";
 import { Request, Response, NextFunction } from "express";
 import { ParsedQs } from "qs";
-import { searchablePaths } from "../data-access/model";
+import { Rental, searchablePaths } from "../data-access/model";
 
 export class RentalsController extends GenericController<RentalDataAccess>{
     constructor (dataAccess: RentalDataAccess, microserviceName: string){
@@ -13,11 +13,22 @@ export class RentalsController extends GenericController<RentalDataAccess>{
     public addNew = async(req: Request, res: Response, next: NextFunction) =>{
         const inputData = req.body
         const currentUser:any = req.user
-
+        const file = req.file
+        
         try {
             const newDocument = await this.dataAccess.createNew({
-                ...inputData, landlord: currentUser._id.toString()
+                ...inputData, 
+                landlord: currentUser._id.toString(),
+                images: JSON.parse(inputData.images),
+                waterSources: JSON.parse(inputData.waterSources),
+                energySources: JSON.parse(inputData.energySources),
+                backgroundImage: file ? {
+                    name: file.originalname,
+                    data: file.buffer,
+                    contentType: file.mimetype
+                } : null 
             })
+            console.log("Body: ", newDocument)
             
             this.respondWithCreatedResource(newDocument, res)
         } catch (error) {

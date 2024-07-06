@@ -7,6 +7,7 @@ import {
 } from "./input-validation";
 import { validator } from "../../../z-library/validation/validator";
 import { Authenticatable } from '../../../z-library/auth/auth'
+import { uploadSingleFile } from "../../../z-library/uploads/image";
 
 const router = Router()
 
@@ -14,6 +15,7 @@ export const routesWrapper = (controller: RentalsController, authenticator: Auth
 
     router.post('/:id', controller.respondWithMethodNotAllowed)
     router.post('/', 
+        uploadSingleFile('backgroundImage'),
         authenticator.authenticate(),
         rentalPostValidator,
         validator.handleValidationErrors,

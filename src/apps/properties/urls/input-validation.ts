@@ -7,7 +7,6 @@ const optional = { required: false }
 const rentalPostValidator = [
     validator.validateName('propertyName', required),
     validator.validateNumber('bedrooms', required),
-    validator.validateUrl('backgroundImageUrl', required),
     validator.validateString('description', required),
     validator.validateObjectId('landlord', required),
     validator.validateName('locationName', required),
