@@ -59,7 +59,10 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                 paginator, { rentLimits, searchDoc }
             )
 
-            this.respondWithFoundResource(documents, res)
+            res.status(200).json(
+                documents.map(document => this.transformDocument(document))
+            )
+            // this.respondWithFoundResource(documents, res)
         } catch (error) {
             next(error)
         }
@@ -92,9 +95,10 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         if (!doc) return null;
     
         return {
+            _id: doc._id,
             propertyName: doc.propertyName,
             propertyType: doc.propertyType,
-            backgroundImage: doc.backgroundImage ? {
+            backgroundImage: doc.backgroundImage && doc.backgroundImage.data ? {
                 name: doc.backgroundImage.name,
                 data: doc.backgroundImage.data.toString('base64'),
                 contentType: doc.backgroundImage.contentType
