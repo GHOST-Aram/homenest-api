@@ -42,6 +42,7 @@ export const routesWrapper = (controller: RentalsController, authenticator: Auth
 
     router.put('/', controller.respondWithMethodNotAllowed)
     router.put('/:id', 
+        uploadSingleFile('backgroundImage'),
         authenticator.authenticate(),
         validator.validateReferenceId('id', { required: true }),
         rentalPostValidator,

@@ -169,6 +169,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         const referenceId = req.params.id
         const updateDoc = req.body
         const currentUser:any = req.user
+        const file = req.file
 
         try {
             const updatedDoc = await this.dataAccess.findOneAndUpdate({id: referenceId, 
@@ -177,7 +178,15 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                 {
                     ...updateDoc, 
                     // Override the value of landlord - Ensure it's always curentUser's Id
-                    landlord:currentUser._id.toString()
+                    landlord:currentUser._id.toString(),
+                    images: JSON.parse(updateDoc.images),
+                    waterSources: JSON.parse(updateDoc.waterSources),
+                    energySources: JSON.parse(updateDoc.energySources),
+                    backgroundImage: file ? {
+                        name: file.originalname,
+                        data: file.buffer,
+                        contentType: file.mimetype
+                    } : null
             })
 
             if(updatedDoc){
