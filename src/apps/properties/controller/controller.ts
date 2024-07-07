@@ -3,7 +3,7 @@ import { GenericController } from "../../../z-library/bases/generic-controller";
 import { Paginator } from "../../../z-library/HTTP/http-response";
 import { Request, Response, NextFunction } from "express";
 import { ParsedQs } from "qs";
-import { Rental, searchablePaths } from "../data-access/model";
+import { HydratedRentalDoc, searchablePaths } from "../data-access/model";
 
 export class RentalsController extends GenericController<RentalDataAccess>{
     constructor (dataAccess: RentalDataAccess, microserviceName: string){
@@ -28,7 +28,6 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                     contentType: file.mimetype
                 } : null 
             })
-            console.log("Body: ", newDocument)
             
             this.respondWithCreatedResource(newDocument, res)
         } catch (error) {
@@ -65,6 +64,62 @@ export class RentalsController extends GenericController<RentalDataAccess>{
             next(error)
         }
     }
+
+    public getOne = async(req: Request, res: Response, next: NextFunction) =>{
+        const referenceId = req.params.id
+
+        try {
+            const foundDocument = await this.dataAccess.findByReferenceId(referenceId)
+
+            if(foundDocument){
+                
+                // Format image data to base64 string before sending to the client
+                if(foundDocument.backgroundImage?.data){
+                    res.status(200).json(this.transformDocument(foundDocument))
+                } else{
+                    // No background Image, return data as fetched from DB
+                    this.respondWithFoundResource(foundDocument, res)
+                }
+            } else{
+                this.respondWithNotFound(res)
+            }
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    private transformDocument(doc: HydratedRentalDoc) {
+        if (!doc) return null;
+    
+        return {
+            propertyName: doc.propertyName,
+            propertyType: doc.propertyType,
+            backgroundImage: doc.backgroundImage ? {
+                name: doc.backgroundImage.name,
+                data: doc.backgroundImage.data.toString('base64'),
+                contentType: doc.backgroundImage.contentType
+            } : undefined,
+            backgroundImageUrl: doc.backgroundImageUrl,
+            rentPerMonth: doc.rentPerMonth,
+            rentPerYear: doc.rentPerYear,
+            locationName: doc.locationName,
+            bedrooms: doc.bedrooms,
+            bathrooms: doc.bathrooms,
+            description: doc.description,
+            landlord: doc.landlord,
+            squareFootage: doc.squareFootage,
+            isAvailable: doc.isAvailable,
+            isFurnished: doc.isFurnished,
+            hasParkingSpace: doc.hasParkingSpace,
+            energySources: doc.energySources,
+            waterSources: doc.waterSources,
+            petPolicy: doc.petPolicy,
+            images: doc.images,
+            cityOrTown: doc.cityOrTown,
+            estate: doc.estate
+        };
+    }
+
 
     private getRentLimitsFromQuery=(query: ParsedQs): RentLimits | false =>{
             const rentMin = Number(query.rentMin)
