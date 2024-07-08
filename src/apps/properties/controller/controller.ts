@@ -60,10 +60,12 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                 paginator, { rentLimits, searchDoc }
             )
 
-            res.status(200).json(
-                documents.map(document => this.transformDocument(document))
-            )
-            // this.respondWithFoundResource(documents, res)
+            
+                const formattedDocuments = documents.map(
+                    document => this.formartDocument(document)
+                )
+            
+            this.respondWithFoundResource(formattedDocuments, res)
         } catch (error) {
             next(error)
         }
@@ -79,7 +81,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                 
                 // Format image data to base64 string before sending to the client
                 if(foundDocument.backgroundImage?.data){
-                    this.respondWithFoundResource(this.transformDocument(foundDocument), res)
+                    this.respondWithFoundResource(this.formartDocument(foundDocument), res)
                 } else{
                     // No background Image, return data as fetched from DB
                     this.respondWithFoundResource(foundDocument, res)
@@ -92,7 +94,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         }
     }
 
-    private transformDocument(doc: HydratedRentalDoc) {
+    private formartDocument(doc: HydratedRentalDoc) {
 
         const bgImage = doc.backgroundImage
     
