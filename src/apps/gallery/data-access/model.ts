@@ -3,7 +3,7 @@ import { ObjectId } from "mongoose"
 
 export interface Gallery {
 
-    assetId: string
+    assetId: ObjectId,
     images: {
         id: string
         name: string
@@ -16,7 +16,7 @@ export type GalleryModel = Model<Gallery>
 
 export const gallerySchema = new Schema<Gallery, GalleryModel>({
     assetId: { 
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true
     },
     images: [{

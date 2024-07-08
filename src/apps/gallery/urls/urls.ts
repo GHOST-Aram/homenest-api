@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { Controller } from "../controllers/controller"
-import { validatePatchInput, validatePostInput } from "./inputValidators"
+import { validateFiles } from "./inputValidators"
 import { validator } from "../../../z-library/validation/validator"
 import { uploadMultipleFiles } from "../../../z-library/uploads/upload"
 
@@ -11,7 +11,9 @@ export const routesWrapper = (controller: Controller) =>{
     router.post('/:id', controller.respondWithMethodNotAllowed)
     router.post('/',
         uploadMultipleFiles('images'),
-        // validator.handleValidationErrors,
+        validator.validateObjectId('assetId', { required: true }),
+        validator.handleValidationErrors,
+        validateFiles,
         controller.addNew
     )
 
@@ -20,24 +22,27 @@ export const routesWrapper = (controller: Controller) =>{
         validator.handleValidationErrors,
         controller.getOne
     )
-    router.get('/', controller.getMany)
+    router.get('/', controller.respondWithMethodNotAllowed)
 
     router.put('/', controller.respondWithMethodNotAllowed)
-    router.put('/:assetId', validator.validateReferenceId('assetId', { required: true}),
-        validatePostInput,
+    router.put('/:assetId', 
+        validator.validateReferenceId('assetId', { required: true}),//validate url param
+        validator.validateObjectId('assetId', { required: true }),// Validate request body
         validator.handleValidationErrors,
         controller.updateOne
     )
 
     router.patch('/', controller.respondWithMethodNotAllowed)
-    router.patch('/:assetId', validator.validateReferenceId('assetId', { required: true}),
-        validatePatchInput,
+    router.patch('/:assetId', 
+        validator.validateReferenceId('assetId', { required: true}),//validate url param
+        validator.validateObjectId('assetId', { required: true }),// Validate request body
         validator.handleValidationErrors,
         controller.modifyOne
     )
 
     router.delete('/', controller.respondWithMethodNotAllowed)
-    router.delete('/:assetId', validator.validateReferenceId('assetId', { required: true}),
+    router.delete('/:assetId', 
+        validator.validateReferenceId('assetId', { required: true}),//validate url param
         validator.handleValidationErrors,
         controller.deleteOne
     )
