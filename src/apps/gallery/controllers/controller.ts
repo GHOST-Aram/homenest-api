@@ -24,8 +24,8 @@ export class Controller extends GenericController<DataAccess>{
                     assetId,
                     images: Array.isArray(files)? files.map(file =>(
                         {
-                            id: `${Date.now()}'-'${crypto.randomBytes(12).toString('hex')}`,
-                            name: `${Date.now()}'_'${file.originalname}`,
+                            id: `${Date.now()}-${crypto.randomBytes(12).toString('hex')}`,
+                            name: `${Date.now()}_${file.originalname}`,
                             data: file.buffer,
                             contentType: file.mimetype
                         }
@@ -57,11 +57,19 @@ export class Controller extends GenericController<DataAccess>{
 
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
         const assetId = req.params.assetId
-        const updateDoc = req.body
+        const files = req.files
 
         try {
-            const updatedDoc = await this.dataAccess.findByIdAndUpdate(assetId, 
-                updateDoc)
+            const updatedDoc = await this.dataAccess.findByIdAndUpdate(assetId,{
+                images: Array.isArray(files)? files.map(file =>(
+                    {
+                        id: `${Date.now()}-${crypto.randomBytes(12).toString('hex')}`,
+                        name: `${Date.now()}_${file.originalname}`,
+                        data: file.buffer,
+                        contentType: file.mimetype
+                    }
+                )): []
+            })
 
             if(updatedDoc){
                 this.respondWithUpdatedResource(updatedDoc, res)
