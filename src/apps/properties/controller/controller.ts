@@ -79,7 +79,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                 
                 // Format image data to base64 string before sending to the client
                 if(foundDocument.backgroundImage?.data){
-                    res.status(200).json(this.transformDocument(foundDocument))
+                    this.respondWithFoundResource(this.transformDocument(foundDocument), res)
                 } else{
                     // No background Image, return data as fetched from DB
                     this.respondWithFoundResource(foundDocument, res)
@@ -93,7 +93,6 @@ export class RentalsController extends GenericController<RentalDataAccess>{
     }
 
     private transformDocument(doc: HydratedRentalDoc) {
-        if (!doc) return null;
 
         const bgImage = doc.backgroundImage
     
