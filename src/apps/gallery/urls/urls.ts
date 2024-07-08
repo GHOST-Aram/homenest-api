@@ -26,6 +26,8 @@ export const routesWrapper = (controller: Controller) =>{
 
     router.put('/', controller.respondWithMethodNotAllowed)
     router.put('/:assetId', 
+        uploadMultipleFiles('images'),
+        validateFiles,
         validator.validateReferenceId('assetId', { required: true}),//validate url param
         validator.validateObjectId('assetId', { required: true }),// Validate request body
         validator.handleValidationErrors,

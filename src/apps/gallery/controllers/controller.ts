@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { DataAccess } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
-import { Gallery } from "../data-access/model";
+import mongoose from "mongoose";
 import * as crypto from 'crypto'
 
 export class Controller extends GenericController<DataAccess>{
@@ -14,11 +14,11 @@ export class Controller extends GenericController<DataAccess>{
         const { assetId } = req.body
 
         try {
-            const exisitingDoc = await this.dataAccess.findByReferenceId(assetId)
+            // const exisitingDoc = await this.dataAccess.findByReferenceId(assetId)
 
-            if(exisitingDoc){
-                this.respondWithConflict(res)
-            }else {
+            // if(exisitingDoc){
+            //     this.respondWithConflict(res)
+            // }else {
                 // Transform the files array
                 const newDocument = await this.dataAccess.createNew({
                     assetId,
@@ -33,7 +33,7 @@ export class Controller extends GenericController<DataAccess>{
                 })
 
                 this.respondWithCreatedResource(newDocument, res)
-            } 
+            // } 
         } catch (error) {
             next(error)
         }   
@@ -61,6 +61,7 @@ export class Controller extends GenericController<DataAccess>{
 
         try {
             const updatedDoc = await this.dataAccess.findByIdAndUpdate(assetId,{
+                assetId: new  mongoose.Types.ObjectId(assetId),
                 images: Array.isArray(files)? files.map(file =>(
                     {
                         id: `${Date.now()}-${crypto.randomBytes(12).toString('hex')}`,
