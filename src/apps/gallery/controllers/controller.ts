@@ -3,6 +3,7 @@ import { DataAccess } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
 import mongoose from "mongoose";
 import * as crypto from 'crypto'
+import { formatImage } from "../../../z-library/formatting/images";
 
 export class Controller extends GenericController<DataAccess>{
     constructor(dataAccess: DataAccess, microsericeName:string){
@@ -14,11 +15,11 @@ export class Controller extends GenericController<DataAccess>{
         const { assetId } = req.body
 
         try {
-            // const exisitingDoc = await this.dataAccess.findByReferenceId(assetId)
+            const exisitingDoc = await this.dataAccess.findByReferenceId(assetId)
 
-            // if(exisitingDoc){
-            //     this.respondWithConflict(res)
-            // }else {
+            if(exisitingDoc){
+                this.respondWithConflict(res)
+            }else {
                 // Transform the files array
                 const newDocument = await this.dataAccess.createNew({
                     assetId,
@@ -33,7 +34,7 @@ export class Controller extends GenericController<DataAccess>{
                 })
 
                 this.respondWithCreatedResource(newDocument, res)
-            // } 
+            } 
         } catch (error) {
             next(error)
         }   
@@ -46,7 +47,11 @@ export class Controller extends GenericController<DataAccess>{
             const foundDocument = await this.dataAccess.findByReferenceId(assetId)
 
             if(foundDocument){
-                this.respondWithFoundResource(foundDocument, res)
+                this.respondWithFoundResource({
+                    ...foundDocument, 
+                    images: foundDocument.images.map(image => formatImage(image))
+                }, res)
+                
             } else{
                 this.respondWithNotFound(res)
             }
@@ -54,6 +59,7 @@ export class Controller extends GenericController<DataAccess>{
             next(error)
         }
     }
+
 
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
         const assetId = req.params.assetId

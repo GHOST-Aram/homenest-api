@@ -23,7 +23,7 @@ export class HttpResponse{
     }
 
     public respondWithFoundResource = (
-        resource: HydratedDocument<Object>[]| HydratedDocument<Object>, 
+        resource: Object[]| Object, 
         res: Response
         ) =>{
             res.status(200).json(resource)
