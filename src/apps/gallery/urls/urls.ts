@@ -2,14 +2,16 @@ import { Router } from "express"
 import { Controller } from "../controllers/controller"
 import { validatePatchInput, validatePostInput } from "./inputValidators"
 import { validator } from "../../../z-library/validation/validator"
+import { uploadMultipleFiles } from "../../../z-library/uploads/upload"
 
 const router = Router()
 
 export const routesWrapper = (controller: Controller) =>{
 
     router.post('/:id', controller.respondWithMethodNotAllowed)
-    router.post('/', validatePostInput,
-        validator.handleValidationErrors,
+    router.post('/',
+        uploadMultipleFiles('images'),
+        // validator.handleValidationErrors,
         controller.addNew
     )
 

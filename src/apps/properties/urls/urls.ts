@@ -7,7 +7,7 @@ import {
 } from "./input-validation";
 import { validator } from "../../../z-library/validation/validator";
 import { Authenticatable } from '../../../z-library/auth/auth'
-import { uploadSingleFile } from "../../../z-library/uploads/image";
+import { uploadSingleFile } from "../../../z-library/uploads/upload";
 
 const router = Router()
 

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { DataAccess } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
 import { Gallery } from "../data-access/model";
+import * as crypto from 'crypto'
 
 export class Controller extends GenericController<DataAccess>{
     constructor(dataAccess: DataAccess, microsericeName:string){
@@ -9,16 +10,30 @@ export class Controller extends GenericController<DataAccess>{
     }
 
     public addNew = async(req: Request, res: Response, next: NextFunction) =>{
-        const inputData:Gallery = req.body
+        const files = req.files
+        const { assetId } = req.body
 
         try {
-            const exisitingDoc = await this.dataAccess.findByReferenceId(inputData.assetId)
+            const exisitingDoc = await this.dataAccess.findByReferenceId(assetId)
 
             if(exisitingDoc){
                 this.respondWithConflict(res)
+            }else {
+                // Transform the files array
+                const newDocument = await this.dataAccess.createNew({
+                    assetId,
+                    images: Array.isArray(files)? files.map(file =>(
+                        {
+                            id: `${Date.now()}'-'${crypto.randomBytes(12).toString('hex')}`,
+                            name: `${Date.now()}'_'${file.originalname}`,
+                            data: file.buffer,
+                            contentType: file.mimetype
+                        }
+                    )): []
+                })
+
+                this.respondWithCreatedResource(newDocument, res)
             } 
-            const newDocument = await this.dataAccess.createNew(inputData)
-            this.respondWithCreatedResource(newDocument, res)
         } catch (error) {
             next(error)
         }   
