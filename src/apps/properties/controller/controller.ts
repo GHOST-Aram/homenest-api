@@ -59,11 +59,9 @@ export class RentalsController extends GenericController<RentalDataAccess>{
             const documents = await this.dataAccess.findBySearchDocument(
                 paginator, { rentLimits, searchDoc }
             )
-
-            
-                const formattedDocuments = documents.map(
-                    document => this.formartDocument(document)
-                )
+            const formattedDocuments = documents.map(
+                document => this.formartDocument(document)
+            )
             
             this.respondWithFoundResource(formattedDocuments, res)
         } catch (error) {
