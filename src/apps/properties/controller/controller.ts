@@ -4,6 +4,7 @@ import { Paginator } from "../../../z-library/HTTP/http-response";
 import { Request, Response, NextFunction } from "express";
 import { ParsedQs } from "qs";
 import { HydratedRentalDoc, searchablePaths } from "../data-access/model";
+import { formatImage } from "../../../z-library/formatting/images";
 
 export class RentalsController extends GenericController<RentalDataAccess>{
     constructor (dataAccess: RentalDataAccess, microserviceName: string){
@@ -93,16 +94,14 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
     private transformDocument(doc: HydratedRentalDoc) {
         if (!doc) return null;
+
+        const bgImage = doc.backgroundImage
     
         return {
             _id: doc._id,
             propertyName: doc.propertyName,
             propertyType: doc.propertyType,
-            backgroundImage: doc.backgroundImage && doc.backgroundImage.data ? {
-                name: doc.backgroundImage.name,
-                data: doc.backgroundImage.data.toString('base64'),
-                contentType: doc.backgroundImage.contentType
-            } : undefined,
+            backgroundImage: bgImage && bgImage.data ? formatImage(bgImage) : undefined,
             backgroundImageUrl: doc.backgroundImageUrl,
             rentPerMonth: doc.rentPerMonth,
             rentPerYear: doc.rentPerYear,
