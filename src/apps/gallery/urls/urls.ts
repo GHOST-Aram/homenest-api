@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { Controller } from "../controllers/controller"
-import { validateFiles } from "./inputValidators"
+import { validateFiles, validateFilesAsOptional, validateImageIds } from "./inputValidators"
 import { validator } from "../../../z-library/validation/validator"
 import { uploadMultipleFiles } from "../../../z-library/uploads/upload"
 
@@ -28,7 +28,8 @@ export const routesWrapper = (controller: Controller) =>{
     router.patch('/', controller.respondWithMethodNotAllowed)
     router.patch('/:assetId', 
         uploadMultipleFiles('images'),
-        validateFiles,
+        validateFilesAsOptional,
+        validateImageIds,
         validator.validateReferenceId('assetId', { required: true}),//validate url param
         validator.handleValidationErrors,
         controller.modifyOne
