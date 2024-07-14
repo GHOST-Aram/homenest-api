@@ -69,28 +69,23 @@ export class Controller extends GenericController<DataAccess>{
     }
 
     public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
+
         const assetId = new mongoose.Types.ObjectId(req.params.assetId)
-
-        // Contains a specified operation pull or push
-        // Contains string ids array when operation is pull
-        const{ imageIds } = req.body
-
-        const files = req.files
+        const imageIds: string[] = req.body.imageIds //images _ids to be removed from gallery
+        const imageFiles = req.files //Image Files to be added to exisiting gallery images
 
         let modifiedDoc: HydratedGalleryDoc | null = null
+        
         try {
-            if(Array.isArray(files)){
+            if(Array.isArray(imageFiles)){
+                const filesBuffers = this.createFileBuffers(imageFiles)
 
-                //Add more images to gallery with the incoming assetId
-                const filesBuffers = this.createFileBuffers(files)
-                modifiedDoc = await this.dataAccess.addImagesToExistingGallery(
-                    filesBuffers, assetId)
+                modifiedDoc = await this.dataAccess.addImagesToExistingGallery(filesBuffers, 
+                    assetId)
             } 
             
             if(Array.isArray(imageIds)){
-                //_ids of images to be removed from the Gallery
-                modifiedDoc = await this.dataAccess.removeImagesFromGallery(
-                    imageIds, assetId)
+                modifiedDoc = await this.dataAccess.removeImagesFromGallery(imageIds, assetId)
             }
            
             if(modifiedDoc){

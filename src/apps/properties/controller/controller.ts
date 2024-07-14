@@ -153,10 +153,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
     private createObject = (keys:string[], query: ParsedQs) =>{
         let searchDoc = {}
-        keys.forEach(key =>{ 
-            searchDoc = { ...searchDoc, [key]: query[key] }
-        }
-    )
+        keys.forEach(key =>{ searchDoc = { ...searchDoc, [key]: query[key] } })
 
         return searchDoc
     }
@@ -233,7 +230,6 @@ export class RentalsController extends GenericController<RentalDataAccess>{
 
         try {
             const deletedDoc = await this.dataAccess.findOneAndDelete(
-                // Delete a document that matches the specified ID
                 // The landlord Id of the document must also match the current user's Id. Users
                 // are only allowed to delete the documents created by themselves.
                 {
