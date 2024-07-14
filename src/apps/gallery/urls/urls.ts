@@ -24,6 +24,9 @@ export const routesWrapper = (controller: Controller) =>{
     )
     router.get('/', controller.respondWithMethodNotAllowed)
     
+    //PUT not allowed, only patching is allowed
+    router.put('/',controller.respondWithMethodNotAllowed)
+    router.put('/:assetId',controller.respondWithMethodNotAllowed)
 
     router.patch('/', controller.respondWithMethodNotAllowed)
     router.patch('/:assetId', 
