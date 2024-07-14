@@ -36,8 +36,9 @@ export const routesWrapper = (controller: Controller) =>{
 
     router.patch('/', controller.respondWithMethodNotAllowed)
     router.patch('/:assetId', 
+        uploadMultipleFiles('images'),
+        validateFiles,
         validator.validateReferenceId('assetId', { required: true}),//validate url param
-        validator.validateObjectId('assetId', { required: true }),// Validate request body
         validator.handleValidationErrors,
         controller.modifyOne
     )

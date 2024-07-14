@@ -3,6 +3,7 @@ import { DataAccess } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
 import mongoose from "mongoose";
 import { formatImage } from "../../../z-library/formatting/images";
+import { HydratedGalleryDoc } from "../data-access/model";
 
 export class Controller extends GenericController<DataAccess>{
     constructor(dataAccess: DataAccess, microsericeName:string){
@@ -22,13 +23,7 @@ export class Controller extends GenericController<DataAccess>{
                 // Transform the files array
                 const newDocument = await this.dataAccess.createNew({
                     assetId,
-                    images: Array.isArray(files)? files.map(file =>(
-                        {
-                            name: `${Date.now()}_${file.originalname}`,
-                            data: file.buffer,
-                            contentType: file.mimetype
-                        }
-                    )): []
+                    images: Array.isArray(files)? this.createFileBuffers(files): []
                 })
 
                 this.respondWithCreatedResource(newDocument, res)
@@ -36,6 +31,16 @@ export class Controller extends GenericController<DataAccess>{
         } catch (error) {
             next(error)
         }   
+    }
+
+    private createFileBuffers = (files: Express.Multer.File[]) =>{
+        return files.map(file =>(
+            {
+                name: `${Date.now()}_${file.originalname}`,
+                data: file.buffer,
+                contentType: file.mimetype
+            }
+        ))
     }
 
     public getOne = async(req: Request, res: Response, next: NextFunction) =>{
@@ -59,41 +64,53 @@ export class Controller extends GenericController<DataAccess>{
     }
 
 
-    public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
-        const assetId = req.params.assetId
-        const files = req.files
+    // public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
+    //     const assetId = req.params.assetId
+    //     const files = req.files
 
-        try {
-            const updatedDoc = await this.dataAccess.findByIdAndUpdate(assetId,{
-                assetId: new  mongoose.Types.ObjectId(assetId),
-                images: Array.isArray(files)? files.map(file =>(
-                    {
-                        name: `${Date.now()}_${file.originalname}`,
-                        data: file.buffer,
-                        contentType: file.mimetype
-                    }
-                )): []
-            })
+    //     try {
+    //         const updatedDoc = await this.dataAccess.findByIdAndUpdate(assetId,{
+    //             assetId: new  mongoose.Types.ObjectId(assetId),
+    //             images: Array.isArray(files)? this.createFileBuffers(files): []
+    //         })
 
-            if(updatedDoc){
-                this.respondWithUpdatedResource(updatedDoc, res)
-            } else{
-                this.addNew(req, res, next)
-            }
+    //         if(updatedDoc){
+    //             this.respondWithUpdatedResource(updatedDoc, res)
+    //         } else{
+    //             this.addNew(req, res, next)
+    //         }
 
-        } catch (error) {
-            next(error)
-        }
-    }
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 
     public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
-        const assetId = req.params.assetId
-        const updateDoc = req.body
+        const assetId = new mongoose.Types.ObjectId(req.params.assetId)
 
+        // Contains a specified operation pull or push
+        // Contains string ids array when operation is pull
+        const{ imageIds } = req.body
+
+        const files = req.files
+
+        // console.log("AssetId: ", assetId, "Files : ", files, "imageIds: ", imageIds)
+
+        let modifiedDoc: HydratedGalleryDoc | null = null
         try {
-            const modifiedDoc = await this.dataAccess.findByIdAndUpdate(assetId, 
-                updateDoc)
-
+            if(Array.isArray(files)){
+                //Add more images to gallery with the incoming assetId
+                const filesBuffers = this.createFileBuffers(files)
+                modifiedDoc = await this.dataAccess.addImagesToExistingGallery(
+                    filesBuffers, assetId)
+            } 
+            
+            if(Array.isArray(imageIds)){
+                //_ids of images to be removed from the Gallery
+                modifiedDoc = await this.dataAccess.removeImagesFromGallery(
+                    imageIds, assetId)
+            }
+           
             if(modifiedDoc){
                 this.respondWithModifiedResource(modifiedDoc.id, res)
             } else{
