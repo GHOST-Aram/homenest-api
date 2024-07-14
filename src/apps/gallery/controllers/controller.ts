@@ -63,28 +63,6 @@ export class Controller extends GenericController<DataAccess>{
         }
     }
 
-
-    // public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
-    //     const assetId = req.params.assetId
-    //     const files = req.files
-
-    //     try {
-    //         const updatedDoc = await this.dataAccess.findByIdAndUpdate(assetId,{
-    //             assetId: new  mongoose.Types.ObjectId(assetId),
-    //             images: Array.isArray(files)? this.createFileBuffers(files): []
-    //         })
-
-    //         if(updatedDoc){
-    //             this.respondWithUpdatedResource(updatedDoc, res)
-    //         } else{
-    //             this.addNew(req, res, next)
-    //         }
-
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
-
     public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
         const assetId = new mongoose.Types.ObjectId(req.params.assetId)
 
