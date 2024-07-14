@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { DataAccess } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
 import mongoose from "mongoose";
-import * as crypto from 'crypto'
 import { formatImage } from "../../../z-library/formatting/images";
 
 export class Controller extends GenericController<DataAccess>{
@@ -25,7 +24,6 @@ export class Controller extends GenericController<DataAccess>{
                     assetId,
                     images: Array.isArray(files)? files.map(file =>(
                         {
-                            id: `${Date.now()}-${crypto.randomBytes(12).toString('hex')}`,
                             name: `${Date.now()}_${file.originalname}`,
                             data: file.buffer,
                             contentType: file.mimetype
@@ -51,7 +49,7 @@ export class Controller extends GenericController<DataAccess>{
                     ...foundDocument, 
                     images: foundDocument.images.map(image => formatImage(image))
                 }, res)
-                
+
             } else{
                 this.respondWithNotFound(res)
             }
@@ -70,7 +68,6 @@ export class Controller extends GenericController<DataAccess>{
                 assetId: new  mongoose.Types.ObjectId(assetId),
                 images: Array.isArray(files)? files.map(file =>(
                     {
-                        id: `${Date.now()}-${crypto.randomBytes(12).toString('hex')}`,
                         name: `${Date.now()}_${file.originalname}`,
                         data: file.buffer,
                         contentType: file.mimetype

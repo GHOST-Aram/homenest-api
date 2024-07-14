@@ -5,7 +5,6 @@ export interface Gallery {
 
     assetId: ObjectId,
     images: {
-        id: string
         name: string
         data: Buffer 
         contentType: string
@@ -20,7 +19,6 @@ export const gallerySchema = new Schema<Gallery, GalleryModel>({
         required: true
     },
     images: [{
-        id: String,
         name: String,
         data: Buffer,
         contentType: String
