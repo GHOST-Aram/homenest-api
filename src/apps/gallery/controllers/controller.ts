@@ -70,10 +70,7 @@ export class Controller extends GenericController<DataAccess>{
         // Contains string ids array when operation is pull
         const{ imageIds } = req.body
 
-
         const files = req.files
-
-        console.log("AssetId: ", assetId, "Files : ", files, "imageIds: ", imageIds)
 
         let modifiedDoc: HydratedGalleryDoc | null = null
         try {
