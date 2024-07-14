@@ -20,7 +20,6 @@ export class Controller extends GenericController<DataAccess>{
             if(exisitingDoc){
                 this.respondWithConflict(res)
             }else {
-                // Transform the files array
                 const newDocument = await this.dataAccess.createNew({
                     assetId,
                     images: Array.isArray(files)? this.createFileBuffers(files): []
@@ -34,6 +33,8 @@ export class Controller extends GenericController<DataAccess>{
     }
 
     private createFileBuffers = (files: Express.Multer.File[]) =>{
+        //Take files array and return array that matches the structure of images array in 
+        // the gallery schema
         return files.map(file =>(
             {
                 name: `${Date.now()}_${file.originalname}`,
@@ -52,7 +53,7 @@ export class Controller extends GenericController<DataAccess>{
             if(foundDocument){
                 this.respondWithFoundResource({
                     ...foundDocument, 
-                    images: foundDocument.images.map(image => formatImage(image))
+                    images: this.formatImages(foundDocument.images)
                 }, res)
 
             } else{
@@ -61,6 +62,10 @@ export class Controller extends GenericController<DataAccess>{
         } catch (error) {
             next(error)
         }
+    }
+
+    private formatImages = (images: { name: string, data: Buffer, contentType: string}[]) =>{
+        return images.map(image => formatImage(image))
     }
 
     public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
