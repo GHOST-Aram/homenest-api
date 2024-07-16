@@ -1,6 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { UsersDAL } from "../data-access/data-access";
 import { GenericController } from "../../../z-library/bases/generic-controller";
+import { hash } from "bcrypt";
 
 export class UsersController extends GenericController<UsersDAL>{
 
@@ -28,14 +29,23 @@ export class UsersController extends GenericController<UsersDAL>{
 
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
         const referenceId = req.params.id
-        const updateDoc = req.body
-        const currentUser:any = req.user
+        const { fullName, email, password, role, isAdmin } = req.body
 
+        const currentUser:any = req.user
+        
         if(currentUser._id.toString() !== referenceId){
             this.respondWithForbidden(res)
         } else {
-
+            
             try {
+                const updateDoc = {
+                    fullName,
+                    email,
+                    role,
+                    password: await hash(password, 10),
+                    isAdmin,
+                }
+                
                 const updatedDoc = await this.dataAccess.findByIdAndUpdate(referenceId, 
                     updateDoc)
     
