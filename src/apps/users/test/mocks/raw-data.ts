@@ -27,6 +27,9 @@ export const validPartialData = {
     password: 'password'
 }
 
-export const invalidPartialData = {//password is required
-    email: 'johndoe@gmail.com'
+export const invalidPartialData = {
+    email: 'johndoe@gm',
+    password: "ee",
+    fullName: 90,
+    role: 'Hello world'
 }
