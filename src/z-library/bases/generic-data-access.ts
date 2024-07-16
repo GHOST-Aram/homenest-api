@@ -28,7 +28,7 @@ export class GenericDataAccess<T extends Model<any>, RawData> implements Accessi
 
     public findByIdAndUpdate = async(id: string, updateDoc: any)
         :Promise<HydratedDocument<RawData> | null> =>{
-        return await this.model.findByIdAndUpdate(id, updateDoc)
+        return await this.model.findByIdAndUpdate(id, updateDoc, { new: true })
     }
 
     public findByIdAndDelete = async(id: string)
