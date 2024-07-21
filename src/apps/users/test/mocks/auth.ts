@@ -18,7 +18,6 @@ class Authenticator implements Authenticatable{
                 "__v": 0    
             }
             req.user = user
-            req.isAuthenticated = () =>Boolean(req.user)
             next()
         }
     } 
