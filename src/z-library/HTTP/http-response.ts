@@ -35,13 +35,17 @@ export class HttpResponse{
             limit: 10
         }
 
-        const page = Math.abs(Number(req.query.page))
-        const limit = Math.abs(Number(req.query.limit))
+        try {
+            const page = Math.abs(Number(req.query.page))
+            const limit = Math.abs(Number(req.query.limit))
 
-        if(page && limit){
-            paginator.skipDocs = (page - 1) * limit
-            paginator.limit = limit
-        }
+            if(page && limit){
+                paginator.skipDocs = (page - 1) * limit
+                paginator.limit = limit
+            }
+        } catch (error) {
+            console.log(error)
+        }   
 
         return paginator
     }
