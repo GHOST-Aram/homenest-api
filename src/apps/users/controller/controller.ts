@@ -29,7 +29,7 @@ export class UsersController extends GenericController<UsersDAL>{
 
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{
         const referenceId = req.params.id
-        const { fullName, email, password, role, isAdmin } = req.body
+        const reqBody = req.body
 
         const currentUser:any = req.user
         
@@ -38,13 +38,7 @@ export class UsersController extends GenericController<UsersDAL>{
         } else {
             
             try {
-                const updateDoc = {
-                    fullName,
-                    email,
-                    role,
-                    password: await hash(password, 10),
-                    isAdmin,
-                }
+                const updateDoc = this.formatUpdateDoc(reqBody)
                 
                 const updatedDoc = await this.dataAccess.findByIdAndUpdate(referenceId, 
                     updateDoc)
@@ -58,6 +52,18 @@ export class UsersController extends GenericController<UsersDAL>{
             } catch (error) {
                 next(error)
             }
+        }
+    }
+
+    private formatUpdateDoc = async(updateDoc: any) =>{
+        const { fullName, email, password, role, isAdmin } = updateDoc
+        
+        return {
+            fullName,
+            email,
+            role,
+            password: await hash(password, 10),
+            isAdmin,
         }
     }
 
@@ -82,6 +88,4 @@ export class UsersController extends GenericController<UsersDAL>{
             }
         }
     }
-
-
 }
