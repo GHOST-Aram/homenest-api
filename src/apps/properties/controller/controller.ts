@@ -15,14 +15,15 @@ export class RentalsController extends GenericController<RentalDataAccess>{
         const inputData = req.body
         const currentUser:any = req.user
         const file = req.file
+
+        console.log(inputData)
         
         try {
             const newDocument = await this.dataAccess.createNew({
                 ...inputData, 
                 landlord: currentUser._id.toString(),
-                images: JSON.parse(inputData.images),
-                waterSources: JSON.parse(inputData.waterSources),
-                energySources: JSON.parse(inputData.energySources),
+                waterSources: inputData.waterSources ? JSON.parse(inputData.waterSources) : [],
+                energySources: inputData.energySources ? JSON.parse(inputData.energySources): [],
                 backgroundImage: file ? {
                     name: file.originalname,
                     data: file.buffer,
@@ -33,6 +34,7 @@ export class RentalsController extends GenericController<RentalDataAccess>{
             this.respondWithCreatedResource(newDocument, res)
         } catch (error) {
             next(error)
+            console.log(error)
         }   
     }
 
@@ -116,7 +118,6 @@ export class RentalsController extends GenericController<RentalDataAccess>{
             energySources: doc.energySources,
             waterSources: doc.waterSources,
             petPolicy: doc.petPolicy,
-            images: doc.images,
             cityOrTown: doc.cityOrTown,
             estate: doc.estate
         };
@@ -174,9 +175,8 @@ export class RentalsController extends GenericController<RentalDataAccess>{
                     ...updateDoc, 
                     // Override the value of landlord - Ensure it's always curentUser's Id
                     landlord:currentUser._id.toString(),
-                    images: JSON.parse(updateDoc.images),
-                    waterSources: JSON.parse(updateDoc.waterSources),
-                    energySources: JSON.parse(updateDoc.energySources),
+                    waterSources: updateDoc.waterSources ? JSON.parse(updateDoc.waterSources) : [],
+                    energySources: updateDoc.energySources ? JSON.parse(updateDoc.energySources): [],
                     backgroundImage: file ? {
                         name: file.originalname,
                         data: file.buffer,

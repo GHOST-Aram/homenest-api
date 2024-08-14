@@ -23,7 +23,6 @@ export interface Rental{
     energySources: string[]
     waterSources: string[]
     petPolicy: string
-    images: string[]
     cityOrTown: string
     estate: string
 }
@@ -127,13 +126,6 @@ export const rentalSchema = new Schema<Rental, RentalModel>({
         type: String,
         required: true
     },
-    
-    images: [{
-        url: String,
-        alt: String
-    }]
-
-
 })
 
 export type HydratedRentalDoc = HydratedDocument<Rental>
