@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from "express"
 import { DataAccess } from "../data-access/data-access"
-import 'dotenv/config'
 import { auth } from "../domain/authenticator"
+import { secretOrKey } from "../../../_environment"
 
 export class AuthController{
 
@@ -15,10 +15,8 @@ export class AuthController{
         //Verify user details and issue authentication token
         const { email, password } = req.body
 
-        const secretOrkey = process.env.TOKEN_SECRET
-
         try {
-            if(secretOrkey){
+            if(secretOrKey){
 
                 const user = await this.dataAccess.findUserByEmail(email)
                 
@@ -36,7 +34,7 @@ export class AuthController{
                             name: user.fullName,
                             role: user.role,
                             id: user._id ? user._id.toString() : user.id,
-                        }, secretOrkey )
+                        }, secretOrKey )
         
                         this.respondWithToken(token, res)  
                     }

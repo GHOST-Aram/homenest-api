@@ -2,7 +2,8 @@ import express, { Application } from "express"
 import { authenticator } from "../z-library/auth/auth"
 import { Server } from "../z-library/server/server"
 import { Connection } from "../z-library/db/connection"
-import 'dotenv/config'
+import { USERSDB_URI as dbUri } from "../_environment"
+import { secretOrKey } from "../_environment"
 
 const app: Application = express()
 const server = new Server(app)
@@ -12,8 +13,6 @@ server.allowCrossOriginResourceSharing()
 server.enforceSecurity()
 server.logRequestsandResponses()
 
-const dbUri = process.env.USERSDB_URI
-const secretOrKey = process.env.TOKEN_SECRET
 let connection: Connection
 
 try {
