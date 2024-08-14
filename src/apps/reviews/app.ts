@@ -1,7 +1,7 @@
 import { ReviewsController } from "./controller/controller";
 import { ReviewDataAccess} from "./data-access/data-access";
 import { routesWrapper } from "./routes/urls";
-import { connection } from "../../config/config";
+import { connection } from "../../_config/config";
 import { DB } from "../../z-library/db/db";
 import { reviewSchema } from "./data-access/model";
 import { authenticator } from "../../z-library/auth/auth";

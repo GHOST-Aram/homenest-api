@@ -2,7 +2,7 @@ import { routesWrapper } from "./urls/urls";
 import { RentalsController } from "./controller/controller";
 import { RentalDataAccess } from "./data-access/data-access";
 import { rentalSchema } from "./data-access/model";
-import { connection } from "../../config/config";
+import { connection } from "../../_config/config";
 import { DB } from "../../z-library/db/db";
 import { authenticator } from "../../z-library/auth/auth";
 

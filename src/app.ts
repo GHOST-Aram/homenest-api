@@ -1,5 +1,5 @@
 import { authRoutes } from "./apps/authenticator/app";
-import { app } from "./config/config";
+import { app } from "./_config/config";
 import { galleryRoutes } from "./apps/gallery/app";
 import { httpErrors } from "./z-library/HTTP/http-errors";
 import { usersRouter } from "./apps/users/app";
